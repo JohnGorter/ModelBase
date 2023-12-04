@@ -34,7 +34,7 @@ Public Class frmAddEnvironmentalScenario
         If txtEnvironmentalScenarioName.Text.Length = 0 Then
             MsgBox("Geef aub een naam voor het omgevingsscenario op.")
         Else
-            Dim query As String = "INSERT INTO tblOmgevingsscenarios (NAAM, TOELICHTING) VALUES ('" & txtEnvironmentalScenarioName.Text & "','" & txtEnvironmentalScenarioExplanation.Text & "');"
+            Dim query As String = "INSERT INTO tblOmgevingsscenarios (NAAM, PUBLICATIEJAAR, ZICHTJAAR, OMSCHRIJVING) VALUES ('" & txtEnvironmentalScenarioName.Text & "'," & txtPublicationYear.Text & "," & txtZichtjaar.Text & ",'" & txtEnvironmentalScenarioExplanation.Text & "');"
             Setup.GeneralFunctions.SQLiteNoQuery(Setup.SqliteCon, query)
             RefreshScenarios()
         End If

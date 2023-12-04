@@ -14,7 +14,7 @@ Public Class frmAddProject
     End Sub
 
     Public Sub RefreshProjects()
-        Dim query As String = "SELECT PROJECTNAAM, PROJECTNUMMER, INGENIEURSBUREAU, MEDEWERKER  FROM tblProjecten;"
+        Dim query As String = "SELECT PROJECTNAAM, PROJECTNUMMER, INGENIEURSBUREAU, MEDEWERKER FROM tblProjecten;"
         Dim dt As New DataTable
 
         Setup.GeneralFunctions.SQLiteQuery(Setup.SqliteCon, query, dt)
@@ -28,20 +28,17 @@ Public Class frmAddProject
 
     Private Sub frmAddProject_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Me.Setup.SqliteCon, "SELECT DISTINCT NAAM FROM tblMedewerkers;", cmbMedewerker)
+        Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Me.Setup.SqliteCon, "SELECT DISTINCT INGENIEURSBUREAU FROM tblIngenieursbureaus;", cmbConsultancyFirm)
         RefreshProjects()
     End Sub
 
     Private Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
         If txtProjectName.Text.Length = 0 Then
-            MsgBox("Geef AUB de naam van het project op.")
-        ElseIf txtProjectNumber.Text.Length = 0 Then
-            MsgBox("Geef AUB het nummer van het project op.")
-        ElseIf txtConsultant.Text.Length = 0 Then
-            MsgBox("Geef AUB het adviesbureau van het project op.")
+            MsgBox("Geef aub de naam van het project op.")
         ElseIf cmbMedewerker.Text.Length = 0 Then
-            MsgBox("Geef AUB de medewerker van Waterschap Limburg van het project op.")
+            MsgBox("Geef aub de medewerker van Waterschap Limburg voor dit project op.")
         Else
-            Dim query As String = "INSERT INTO tblProjecten (PROJECTNAAM, PROJECTNUMMER, INGENIEURSBUREAU, MEDEWERKER) VALUES ('" & txtProjectName.Text & "', '" & txtProjectNumber.Text & "', '" & txtConsultant.Text & "', '" & cmbMedewerker.Text & "');"
+            Dim query As String = "INSERT INTO tblProjecten (PROJECTNAAM, PROJECTNUMMER, INGENIEURSBUREAU, MEDEWERKER) VALUES ('" & txtProjectName.Text & "', '" & txtProjectNumber.Text & "', '" & cmbConsultancyFirm.Text & "', '" & cmbMedewerker.Text & "');"
             Setup.GeneralFunctions.SQLiteNoQuery(Setup.SqliteCon, query)
             RefreshProjects()
         End If

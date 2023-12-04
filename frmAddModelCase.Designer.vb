@@ -26,6 +26,9 @@ Partial Class frmAddModelCase
         btnAdd = New Button()
         GroupBox1 = New GroupBox()
         grdModelCases = New DataGridView()
+        colModelCaseName = New DataGridViewTextBoxColumn()
+        colModules = New DataGridViewTextBoxColumn()
+        colVersion = New DataGridViewTextBoxColumn()
         cmbModelProject = New ComboBox()
         Label1 = New Label()
         pckCreateDate = New DateTimePicker()
@@ -46,6 +49,7 @@ Partial Class frmAddModelCase
         Label3 = New Label()
         txtCaseName = New TextBox()
         GroupBox2 = New GroupBox()
+        Button1 = New Button()
         cmbModelCase = New ComboBox()
         txtDescription = New TextBox()
         Label15 = New Label()
@@ -58,9 +62,7 @@ Partial Class frmAddModelCase
         txtSimulationPeriod = New TextBox()
         Label5 = New Label()
         dlgOpenFile = New OpenFileDialog()
-        colModelCaseName = New DataGridViewTextBoxColumn()
-        colModules = New DataGridViewTextBoxColumn()
-        colVersion = New DataGridViewTextBoxColumn()
+        Label7 = New Label()
         GroupBox1.SuspendLayout()
         CType(grdModelCases, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox2.SuspendLayout()
@@ -100,6 +102,27 @@ Partial Class frmAddModelCase
         grdModelCases.Size = New Size(522, 501)
         grdModelCases.TabIndex = 5
         ' 
+        ' colModelCaseName
+        ' 
+        colModelCaseName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        colModelCaseName.HeaderText = "Naam"
+        colModelCaseName.MinimumWidth = 6
+        colModelCaseName.Name = "colModelCaseName"
+        ' 
+        ' colModules
+        ' 
+        colModules.HeaderText = "Modules"
+        colModules.MinimumWidth = 6
+        colModules.Name = "colModules"
+        colModules.Width = 125
+        ' 
+        ' colVersion
+        ' 
+        colVersion.HeaderText = "Versie"
+        colVersion.MinimumWidth = 6
+        colVersion.Name = "colVersion"
+        colVersion.Width = 125
+        ' 
         ' cmbModelProject
         ' 
         cmbModelProject.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
@@ -130,9 +153,9 @@ Partial Class frmAddModelCase
         Label14.AutoSize = True
         Label14.Location = New Point(19, 383)
         Label14.Name = "Label14"
-        Label14.Size = New Size(114, 20)
+        Label14.Size = New Size(117, 20)
         Label14.TabIndex = 27
-        Label14.Text = "Aanmaakdatum"
+        Label14.Text = "Aanmaakdatum:"
         ' 
         ' cmbParentCase
         ' 
@@ -148,9 +171,9 @@ Partial Class frmAddModelCase
         Label9.AutoSize = True
         Label9.Location = New Point(19, 347)
         Label9.Name = "Label9"
-        Label9.Size = New Size(71, 20)
+        Label9.Size = New Size(74, 20)
         Label9.TabIndex = 25
-        Label9.Text = "Basiscase"
+        Label9.Text = "Basiscase:"
         ' 
         ' cmbParentProject
         ' 
@@ -166,18 +189,18 @@ Partial Class frmAddModelCase
         Label4.AutoSize = True
         Label4.Location = New Point(19, 313)
         Label4.Name = "Label4"
-        Label4.Size = New Size(89, 20)
+        Label4.Size = New Size(92, 20)
         Label4.TabIndex = 23
-        Label4.Text = "Basisproject"
+        Label4.Text = "Basisproject:"
         ' 
         ' Label13
         ' 
         Label13.AutoSize = True
         Label13.Location = New Point(19, 137)
         Label13.Name = "Label13"
-        Label13.Size = New Size(66, 20)
+        Label13.Size = New Size(79, 20)
         Label13.TabIndex = 22
-        Label13.Text = "Modules"
+        Label13.Text = "Modules: *"
         ' 
         ' cmbModules
         ' 
@@ -200,11 +223,11 @@ Partial Class frmAddModelCase
         ' Label12
         ' 
         Label12.AutoSize = True
-        Label12.Location = New Point(19, 214)
+        Label12.Location = New Point(19, 209)
         Label12.Name = "Label12"
-        Label12.Size = New Size(115, 20)
+        Label12.Size = New Size(118, 20)
         Label12.TabIndex = 19
-        Label12.Text = "Klimaatscenario"
+        Label12.Text = "Klimaatscenario:"
         ' 
         ' cmbEmployee
         ' 
@@ -218,15 +241,15 @@ Partial Class frmAddModelCase
         ' Label10
         ' 
         Label10.AutoSize = True
-        Label10.Location = New Point(399, 208)
+        Label10.Location = New Point(399, 209)
         Label10.Name = "Label10"
-        Label10.Size = New Size(91, 20)
+        Label10.Size = New Size(94, 20)
         Label10.TabIndex = 17
-        Label10.Text = "Medewerker"
+        Label10.Text = "Medewerker:"
         ' 
         ' btnConfigurationFile
         ' 
-        btnConfigurationFile.Location = New Point(694, 37)
+        btnConfigurationFile.Location = New Point(662, 37)
         btnConfigurationFile.Name = "btnConfigurationFile"
         btnConfigurationFile.Size = New Size(26, 27)
         btnConfigurationFile.TabIndex = 16
@@ -238,7 +261,7 @@ Partial Class frmAddModelCase
         txtConfigurationFile.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         txtConfigurationFile.Location = New Point(196, 37)
         txtConfigurationFile.Name = "txtConfigurationFile"
-        txtConfigurationFile.Size = New Size(492, 27)
+        txtConfigurationFile.Size = New Size(460, 27)
         txtConfigurationFile.TabIndex = 12
         ' 
         ' Label6
@@ -246,18 +269,18 @@ Partial Class frmAddModelCase
         Label6.AutoSize = True
         Label6.Location = New Point(14, 40)
         Label6.Name = "Label6"
-        Label6.Size = New Size(144, 20)
+        Label6.Size = New Size(157, 20)
         Label6.TabIndex = 11
-        Label6.Text = "Configuratiebestand"
+        Label6.Text = "Configuratiebestand: *"
         ' 
         ' Label3
         ' 
         Label3.AutoSize = True
         Label3.Location = New Point(17, 70)
         Label3.Name = "Label3"
-        Label3.Size = New Size(77, 20)
+        Label3.Size = New Size(90, 20)
         Label3.TabIndex = 5
-        Label3.Text = "Casenaam"
+        Label3.Text = "Casenaam: *"
         ' 
         ' txtCaseName
         ' 
@@ -269,6 +292,8 @@ Partial Class frmAddModelCase
         ' 
         ' GroupBox2
         ' 
+        GroupBox2.Controls.Add(Label7)
+        GroupBox2.Controls.Add(Button1)
         GroupBox2.Controls.Add(btnConfigurationFile)
         GroupBox2.Controls.Add(Label10)
         GroupBox2.Controls.Add(txtConfigurationFile)
@@ -305,6 +330,16 @@ Partial Class frmAddModelCase
         GroupBox2.TabStop = False
         GroupBox2.Text = "Modelcase toevoegen"
         ' 
+        ' Button1
+        ' 
+        Button1.BackColor = Color.Gold
+        Button1.Location = New Point(694, 37)
+        Button1.Name = "Button1"
+        Button1.Size = New Size(26, 27)
+        Button1.TabIndex = 29
+        Button1.Text = "?"
+        Button1.UseVisualStyleBackColor = False
+        ' 
         ' cmbModelCase
         ' 
         cmbModelCase.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
@@ -328,9 +363,9 @@ Partial Class frmAddModelCase
         Label15.AutoSize = True
         Label15.Location = New Point(19, 414)
         Label15.Name = "Label15"
-        Label15.Size = New Size(95, 20)
+        Label15.Size = New Size(98, 20)
         Label15.TabIndex = 24
-        Label15.Text = "Omschrijving"
+        Label15.Text = "Omschrijving:"
         ' 
         ' cmbEnvironmentalScenario
         ' 
@@ -344,20 +379,20 @@ Partial Class frmAddModelCase
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Location = New Point(19, 241)
+        Label2.Location = New Point(19, 244)
         Label2.Name = "Label2"
-        Label2.Size = New Size(139, 20)
+        Label2.Size = New Size(142, 20)
         Label2.TabIndex = 17
-        Label2.Text = "Omgevingsscenario"
+        Label2.Text = "Omgevingsscenario:"
         ' 
         ' Label11
         ' 
         Label11.AutoSize = True
         Label11.Location = New Point(19, 278)
         Label11.Name = "Label11"
-        Label11.Size = New Size(111, 20)
+        Label11.Size = New Size(114, 20)
         Label11.TabIndex = 16
-        Label11.Text = "Ontwerpvariant"
+        Label11.Text = "Ontwerpvariant:"
         ' 
         ' txtDesignScenario
         ' 
@@ -372,14 +407,14 @@ Partial Class frmAddModelCase
         Label8.AutoSize = True
         Label8.Location = New Point(399, 141)
         Label8.Name = "Label8"
-        Label8.Size = New Size(103, 20)
+        Label8.Size = New Size(106, 20)
         Label8.TabIndex = 10
-        Label8.Text = "Versienummer"
+        Label8.Text = "Versienummer:"
         ' 
         ' txtVersion
         ' 
         txtVersion.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        txtVersion.Location = New Point(508, 134)
+        txtVersion.Location = New Point(508, 138)
         txtVersion.Name = "txtVersion"
         txtVersion.Size = New Size(212, 27)
         txtVersion.TabIndex = 9
@@ -397,34 +432,22 @@ Partial Class frmAddModelCase
         Label5.AutoSize = True
         Label5.Location = New Point(19, 175)
         Label5.Name = "Label5"
-        Label5.Size = New Size(123, 20)
+        Label5.Size = New Size(126, 20)
         Label5.TabIndex = 13
-        Label5.Text = "Simulatieperiode"
+        Label5.Text = "Simulatieperiode:"
         ' 
         ' dlgOpenFile
         ' 
         dlgOpenFile.FileName = "OpenFileDialog1"
         ' 
-        ' colModelCaseName
+        ' Label7
         ' 
-        colModelCaseName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        colModelCaseName.HeaderText = "Naam"
-        colModelCaseName.MinimumWidth = 6
-        colModelCaseName.Name = "colModelCaseName"
-        ' 
-        ' colModules
-        ' 
-        colModules.HeaderText = "Modules"
-        colModules.MinimumWidth = 6
-        colModules.Name = "colModules"
-        colModules.Width = 125
-        ' 
-        ' colVersion
-        ' 
-        colVersion.HeaderText = "Versie"
-        colVersion.MinimumWidth = 6
-        colVersion.Name = "colVersion"
-        colVersion.Width = 125
+        Label7.AutoSize = True
+        Label7.Location = New Point(17, 562)
+        Label7.Name = "Label7"
+        Label7.Size = New Size(185, 20)
+        Label7.TabIndex = 30
+        Label7.Text = "Velden met * zijn verplicht."
         ' 
         ' frmAddModelCase
         ' 
@@ -482,4 +505,6 @@ Partial Class frmAddModelCase
     Friend WithEvents colModelCaseName As DataGridViewTextBoxColumn
     Friend WithEvents colModules As DataGridViewTextBoxColumn
     Friend WithEvents colVersion As DataGridViewTextBoxColumn
+    Friend WithEvents Button1 As Button
+    Friend WithEvents Label7 As Label
 End Class

@@ -29,6 +29,8 @@ Partial Class frmModelBase
         ImportToolStripMenuItem = New ToolStripMenuItem()
         AccessToolStripMenuItem = New ToolStripMenuItem()
         CreateNewToolStripMenuItem = New ToolStripMenuItem()
+        IngenieursbureausToolStripMenuItem = New ToolStripMenuItem()
+        ToevoegenToolStripMenuItem8 = New ToolStripMenuItem()
         MedewerkersToolStripMenuItem = New ToolStripMenuItem()
         ToevoegenToolStripMenuItem1 = New ToolStripMenuItem()
         StroomgebiedenToolStripMenuItem = New ToolStripMenuItem()
@@ -44,13 +46,12 @@ Partial Class frmModelBase
         ToevoegenToolStripMenuItem5 = New ToolStripMenuItem()
         OmgevingsscenariosToolStripMenuItem = New ToolStripMenuItem()
         ToevoegenToolStripMenuItem6 = New ToolStripMenuItem()
-        OntwerpvariantenToolStripMenuItem = New ToolStripMenuItem()
-        ToevoegenToolStripMenuItem7 = New ToolStripMenuItem()
         ModellenToolStripMenuItem = New ToolStripMenuItem()
         ToevoegenToolStripMenuItem = New ToolStripMenuItem()
         ProjectToolStripMenuItem = New ToolStripMenuItem()
         CaseToolStripMenuItem = New ToolStripMenuItem()
         VerwijderenToolStripMenuItem = New ToolStripMenuItem()
+        OverToolStripMenuItem = New ToolStripMenuItem()
         SplitContainer1 = New SplitContainer()
         grdModelSchematizations = New DataGridView()
         colCaseNaam = New DataGridViewTextBoxColumn()
@@ -87,7 +88,7 @@ Partial Class frmModelBase
         ' MenuStrip1
         ' 
         MenuStrip1.ImageScalingSize = New Size(20, 20)
-        MenuStrip1.Items.AddRange(New ToolStripItem() {DatabaseToolStripMenuItem, MedewerkersToolStripMenuItem, StroomgebiedenToolStripMenuItem, ModelleersoftwareToolStripMenuItem, ProjectenToolStripMenuItem, ScenariosToolStripMenuItem, ModellenToolStripMenuItem})
+        MenuStrip1.Items.AddRange(New ToolStripItem() {DatabaseToolStripMenuItem, IngenieursbureausToolStripMenuItem, MedewerkersToolStripMenuItem, StroomgebiedenToolStripMenuItem, ModelleersoftwareToolStripMenuItem, ProjectenToolStripMenuItem, ScenariosToolStripMenuItem, ModellenToolStripMenuItem, OverToolStripMenuItem})
         MenuStrip1.Location = New Point(0, 0)
         MenuStrip1.Name = "MenuStrip1"
         MenuStrip1.Size = New Size(1393, 28)
@@ -125,6 +126,19 @@ Partial Class frmModelBase
         CreateNewToolStripMenuItem.Name = "CreateNewToolStripMenuItem"
         CreateNewToolStripMenuItem.Size = New Size(159, 26)
         CreateNewToolStripMenuItem.Text = "Nieuw"
+        ' 
+        ' IngenieursbureausToolStripMenuItem
+        ' 
+        IngenieursbureausToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ToevoegenToolStripMenuItem8})
+        IngenieursbureausToolStripMenuItem.Name = "IngenieursbureausToolStripMenuItem"
+        IngenieursbureausToolStripMenuItem.Size = New Size(143, 24)
+        IngenieursbureausToolStripMenuItem.Text = "Ingenieursbureaus"
+        ' 
+        ' ToevoegenToolStripMenuItem8
+        ' 
+        ToevoegenToolStripMenuItem8.Name = "ToevoegenToolStripMenuItem8"
+        ToevoegenToolStripMenuItem8.Size = New Size(165, 26)
+        ToevoegenToolStripMenuItem8.Text = "Toevoegen"
         ' 
         ' MedewerkersToolStripMenuItem
         ' 
@@ -193,7 +207,7 @@ Partial Class frmModelBase
         ' 
         ' ScenariosToolStripMenuItem
         ' 
-        ScenariosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {KlimaatscenariosToolStripMenuItem, OmgevingsscenariosToolStripMenuItem, OntwerpvariantenToolStripMenuItem})
+        ScenariosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {KlimaatscenariosToolStripMenuItem, OmgevingsscenariosToolStripMenuItem})
         ScenariosToolStripMenuItem.Name = "ScenariosToolStripMenuItem"
         ScenariosToolStripMenuItem.Size = New Size(175, 24)
         ScenariosToolStripMenuItem.Text = "Scenario's en Varianten"
@@ -223,19 +237,6 @@ Partial Class frmModelBase
         ToevoegenToolStripMenuItem6.Name = "ToevoegenToolStripMenuItem6"
         ToevoegenToolStripMenuItem6.Size = New Size(165, 26)
         ToevoegenToolStripMenuItem6.Text = "Toevoegen"
-        ' 
-        ' OntwerpvariantenToolStripMenuItem
-        ' 
-        OntwerpvariantenToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ToevoegenToolStripMenuItem7})
-        OntwerpvariantenToolStripMenuItem.Name = "OntwerpvariantenToolStripMenuItem"
-        OntwerpvariantenToolStripMenuItem.Size = New Size(231, 26)
-        OntwerpvariantenToolStripMenuItem.Text = "Ontwerpvarianten"
-        ' 
-        ' ToevoegenToolStripMenuItem7
-        ' 
-        ToevoegenToolStripMenuItem7.Name = "ToevoegenToolStripMenuItem7"
-        ToevoegenToolStripMenuItem7.Size = New Size(165, 26)
-        ToevoegenToolStripMenuItem7.Text = "Toevoegen"
         ' 
         ' ModellenToolStripMenuItem
         ' 
@@ -268,6 +269,12 @@ Partial Class frmModelBase
         VerwijderenToolStripMenuItem.Name = "VerwijderenToolStripMenuItem"
         VerwijderenToolStripMenuItem.Size = New Size(170, 26)
         VerwijderenToolStripMenuItem.Text = "Verwijderen"
+        ' 
+        ' OverToolStripMenuItem
+        ' 
+        OverToolStripMenuItem.Name = "OverToolStripMenuItem"
+        OverToolStripMenuItem.Size = New Size(54, 24)
+        OverToolStripMenuItem.Text = "Over"
         ' 
         ' SplitContainer1
         ' 
@@ -342,16 +349,17 @@ Partial Class frmModelBase
         ' 
         ' cmbModelleersoftware
         ' 
+        cmbModelleersoftware.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         cmbModelleersoftware.FormattingEnabled = True
-        cmbModelleersoftware.Location = New Point(220, 76)
+        cmbModelleersoftware.Location = New Point(174, 65)
         cmbModelleersoftware.Name = "cmbModelleersoftware"
-        cmbModelleersoftware.Size = New Size(257, 28)
+        cmbModelleersoftware.Size = New Size(307, 28)
         cmbModelleersoftware.TabIndex = 7
         ' 
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Location = New Point(21, 79)
+        Label2.Location = New Point(34, 68)
         Label2.Name = "Label2"
         Label2.Size = New Size(134, 20)
         Label2.TabIndex = 6
@@ -360,7 +368,7 @@ Partial Class frmModelBase
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(21, 39)
+        Label1.Location = New Point(34, 34)
         Label1.Name = "Label1"
         Label1.Size = New Size(105, 20)
         Label1.TabIndex = 5
@@ -368,10 +376,11 @@ Partial Class frmModelBase
         ' 
         ' cmbStroomgebieden
         ' 
+        cmbStroomgebieden.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         cmbStroomgebieden.FormattingEnabled = True
-        cmbStroomgebieden.Location = New Point(220, 36)
+        cmbStroomgebieden.Location = New Point(174, 31)
         cmbStroomgebieden.Name = "cmbStroomgebieden"
-        cmbStroomgebieden.Size = New Size(257, 28)
+        cmbStroomgebieden.Size = New Size(307, 28)
         cmbStroomgebieden.TabIndex = 0
         ' 
         ' txtDatabase
@@ -483,7 +492,7 @@ Partial Class frmModelBase
         Icon = CType(resources.GetObject("$this.Icon"), Icon)
         MainMenuStrip = MenuStrip1
         Name = "frmModelBase"
-        Text = "Modellendatabase"
+        Text = "De Modellenbeheerder"
         WindowState = FormWindowState.Maximized
         MenuStrip1.ResumeLayout(False)
         MenuStrip1.PerformLayout()
@@ -550,6 +559,9 @@ Partial Class frmModelBase
     Friend WithEvents ToevoegenToolStripMenuItem5 As ToolStripMenuItem
     Friend WithEvents OmgevingsscenariosToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToevoegenToolStripMenuItem6 As ToolStripMenuItem
-    Friend WithEvents OntwerpvariantenToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ToevoegenToolStripMenuItem7 As ToolStripMenuItem
+    Friend WithEvents OverToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents IngenieursbureausToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToevoegenToolStripMenuItem8 As ToolStripMenuItem
+    Friend WithEvents cmbProject As ComboBox
+    Friend WithEvents Label3 As Label
 End Class

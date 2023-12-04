@@ -36,7 +36,7 @@ Public Class frmModelBase
     End Sub
 
     Public Sub PopulateControls()
-        Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Setup.SqliteCon, "SELECT DISTINCT NAAM FROM tblStroomgebieden;", cmbStroomgebieden)
+        Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Setup.SqliteCon, "SELECT DISTINCT STROOMGEBIED FROM tblStroomgebieden;", cmbStroomgebieden)
         Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Setup.SqliteCon, "SELECT DISTINCT NAAM FROM tblModelleersoftware;", cmbModelleersoftware)
 
         'populate the datagridview with all available models
@@ -47,23 +47,26 @@ Public Class frmModelBase
         'populate the datagridview with all available models
         grdModelSchematizations.Rows.Clear()
 
-        Dim query As String = "SELECT MODELCASENAAM, MODELPROJECTNAAM, MODULES, CODESTRGEB FROM tblModelCases;"
+        Dim query As String = "SELECT MODELCASENAAM, MODELPROJECTNAAM, MODULES FROM tblModelCases;"
         Dim dt As New DataTable
-        Setup.GeneralFunctions.SQLiteQuery(Setup.SqliteCon, query, dt)
+        Setup.GeneralFunctions.SQLiteQuery(Setup.SqliteCon, query, dt, False)
 
         grdModelSchematizations.Rows.Clear()
         For i = 0 To dt.Rows.Count - 1
 
-            'find the name of the stroomgebied
+            'find the name of the catchment and check if the catchment is selected in the combobox
+            'if not, continue our loop
             Dim stroomgebied As String = ""
-            Dim query2 As String = "SELECT NAAM FROM tblStroomgebieden WHERE CODESTRGEB = '" & dt.Rows(i).Item(3) & "';"
+            Dim query2 As String = "SELECT STROOMGEBIED FROM tblModelProjecten WHERE MODELPROJECTNAAM = '" & dt.Rows(i).Item(1) & "';"
             Dim dt2 As New DataTable
-            Setup.GeneralFunctions.SQLiteQuery(Setup.SqliteCon, query2, dt2)
+            Setup.GeneralFunctions.SQLiteQuery(Me.Setup.SqliteCon, query2, dt2)
             If dt2.Rows.Count > 0 Then
                 stroomgebied = dt2.Rows(0).Item(0)
             End If
+            If cmbStroomgebieden.Text.Length > 0 AndAlso cmbStroomgebieden.Text <> stroomgebied Then Continue For
 
-            'also find the name of the modelproject and its modelleersoftware
+            'find the name of the modelling software and check if it is selected in the combobox
+            'if not, continue our loop
             Dim modelleersoftware As String = ""
             Dim query3 As String = "SELECT MODELLEERSOFTWARE FROM tblModelProjecten WHERE MODELPROJECTNAAM = '" & dt.Rows(i).Item(1) & "';"
             Dim dt3 As New DataTable
@@ -71,12 +74,14 @@ Public Class frmModelBase
             If dt3.Rows.Count > 0 Then
                 modelleersoftware = dt3.Rows(0).Item(0)
             End If
+            If cmbModelleersoftware.Text.Length > 0 AndAlso cmbModelleersoftware.Text <> modelleersoftware Then Continue For
 
+            'if we get here, our case has passed all filters and we can add the model to the grid
             Dim row As String() = New String() {dt.Rows(i).Item(0), stroomgebied, modelleersoftware}
             grdModelSchematizations.Rows.Add(row)
         Next
 
-
+        Me.Setup.SqliteCon.Close()
 
     End Sub
 
@@ -229,7 +234,7 @@ Public Class frmModelBase
 
     End Sub
 
-    Public Sub RenderModelOnMap(ByRef myCase As HYDROC01.clsModelCase)
+    Public Function RenderModelOnMap(ByRef myCase As HYDROC01.clsModelCase) As Boolean
         Try
             Dim ReachesOverlay As GMapOverlay
             Dim MarkersOverlay As GMapOverlay
@@ -283,13 +288,8 @@ Public Class frmModelBase
             Next
 
             Map.Overlays.Add(ReachesOverlay)
-            'Map.Refresh()
-            'Map.Update()
 
-
-
-            'now we'll add the nodes to the map
-
+            'now we'll add the reachnodes to the map
             Dim objectBitmap As Bitmap
             Dim objectMarker As GMarkerGoogle
 
@@ -313,7 +313,7 @@ Public Class frmModelBase
                 objectMarker.Tag = markerTag
                 objectMarker.Offset = markerTag.Offset
                 objectMarker.ToolTipText = myNode.ID
-                objectMarker.ToolTipText = vbNewLine & myNode.ID
+                objectMarker.ToolTipText = vbCrLf & myNode.ID
                 objectMarker.ToolTip.Fill = Brushes.DarkGray
                 objectMarker.ToolTip.Foreground = Brushes.White
                 objectMarker.ToolTip.Stroke = Pens.Black
@@ -353,7 +353,7 @@ Public Class frmModelBase
                 .Offset = objectMarker.Offset 'we keep track of the offset in the marker's tag so we can simply look it up when changing color
             }
                 objectMarker.Tag = markerTag
-                objectMarker.ToolTipText = vbNewLine & myObj.ID
+                objectMarker.ToolTipText = vbCrLf & myObj.ID
                 objectMarker.ToolTip.Fill = Brushes.DarkGray
                 objectMarker.ToolTip.Foreground = Brushes.White
                 objectMarker.ToolTip.Stroke = Pens.Black
@@ -369,12 +369,39 @@ Public Class frmModelBase
             'now that we have the reaches, we can zoom to the extents of the model
             Map.ZoomAndCenterRoutes("Reaches")
 
-
+            Return True
         Catch ex As Exception
-            Stop
+            Me.Setup.Log.AddError("Error rendering the model on the map: " & ex.Message)
+            Return False
         End Try
 
 
+    End Function
+
+    Private Sub OverToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OverToolStripMenuItem.Click
+        Dim myForm As New frmAbout()
+        myForm.ShowDialog()
     End Sub
 
+    Private Sub ToevoegenToolStripMenuItem8_Click(sender As Object, e As EventArgs) Handles ToevoegenToolStripMenuItem8.Click
+        Dim myForm As New frmAddConsultancyFirm(Me.Setup)
+        myForm.ShowDialog()
+    End Sub
+
+    Private Sub ToevoegenToolStripMenuItem6_Click(sender As Object, e As EventArgs) Handles ToevoegenToolStripMenuItem6.Click
+        Dim myForm As New frmAddEnvironmentalScenario(Me.Setup)
+        myForm.ShowDialog()
+    End Sub
+
+    Private Sub cmbStroomgebieden_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbStroomgebieden.SelectedIndexChanged
+        PopulateModels()
+    End Sub
+
+    Private Sub cmbModelleersoftware_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbModelleersoftware.SelectedIndexChanged
+        PopulateModels()
+    End Sub
+
+    Private Sub cmbProject_SelectedIndexChanged(sender As Object, e As EventArgs)
+        PopulateModels()
+    End Sub
 End Class

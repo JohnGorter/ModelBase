@@ -14,7 +14,7 @@ Public Class frmAddModelProject
 
 
     Public Sub RefreshProjects()
-        Dim query As String = "SELECT MODELPROJECTNAAM, MODELDIRECTORY, CODESTRGEB, MODELLEERSOFTWARE FROM tblModelProjecten;"
+        Dim query As String = "SELECT MODELPROJECTNAAM, MODELDIRECTORY, STROOMGEBIED, MODELLEERSOFTWARE FROM tblModelProjecten;"
         Dim dt As New DataTable
 
         Setup.GeneralFunctions.SQLiteQuery(Setup.SqliteCon, query, dt)
@@ -27,7 +27,7 @@ Public Class frmAddModelProject
     End Sub
     Private Sub frmAddProject_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'populate the comboboxes
-        Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Setup.SqliteCon, "SELECT DISTINCT NAAM FROM tblStroomgebieden;", cmbCatchment)
+        Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Setup.SqliteCon, "SELECT DISTINCT STROOMGEBIED FROM tblStroomgebieden;", cmbCatchment)
         Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Setup.SqliteCon, "SELECT DISTINCT NAAM FROM tblModelleersoftware;", cmbModellingSoftware)
         Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Setup.SqliteCon, "SELECT DISTINCT PROJECTNAAM FROM tblProjecten;", cmbProject)
 
@@ -57,9 +57,9 @@ Public Class frmAddModelProject
         ElseIf cmbModellingSoftware.Text.Length = 0 Then
             MsgBox("Geef aub de modelleersoftware op.")
         ElseIf cmbProject.Text.Length = 0 Then
-            MsgBox("Geef aub het project op.")
+            MsgBox("Selecteer aub het project behorende bij het model.")
         Else
-            Dim query As String = "INSERT INTO tblModelProjecten (MODELPROJECTNAAM, MODELDIRECTORY, CODESTRGEB, MODELLEERSOFTWARE) VALUES ('" & txtProjectName.Text & "','" & txtprojectDir.Text & "','" & cmbCatchment.Text & "','" & cmbModellingSoftware.Text & "');"
+            Dim query As String = "INSERT INTO tblModelProjecten (MODELPROJECTNAAM, MODELDIRECTORY, STROOMGEBIED, MODELLEERSOFTWARE) VALUES ('" & txtProjectName.Text & "','" & txtprojectDir.Text & "','" & cmbCatchment.Text & "','" & cmbModellingSoftware.Text & "');"
             Setup.GeneralFunctions.SQLiteNoQuery(Setup.SqliteCon, query)
         End If
 
