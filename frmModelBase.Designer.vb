@@ -39,6 +39,13 @@ Partial Class frmModelBase
         CombinatieVanModulesToolStripMenuItem = New ToolStripMenuItem()
         ProjectenToolStripMenuItem = New ToolStripMenuItem()
         ToevoegenToolStripMenuItem4 = New ToolStripMenuItem()
+        ScenariosToolStripMenuItem = New ToolStripMenuItem()
+        KlimaatscenariosToolStripMenuItem = New ToolStripMenuItem()
+        ToevoegenToolStripMenuItem5 = New ToolStripMenuItem()
+        OmgevingsscenariosToolStripMenuItem = New ToolStripMenuItem()
+        ToevoegenToolStripMenuItem6 = New ToolStripMenuItem()
+        OntwerpvariantenToolStripMenuItem = New ToolStripMenuItem()
+        ToevoegenToolStripMenuItem7 = New ToolStripMenuItem()
         ModellenToolStripMenuItem = New ToolStripMenuItem()
         ToevoegenToolStripMenuItem = New ToolStripMenuItem()
         ProjectToolStripMenuItem = New ToolStripMenuItem()
@@ -80,7 +87,7 @@ Partial Class frmModelBase
         ' MenuStrip1
         ' 
         MenuStrip1.ImageScalingSize = New Size(20, 20)
-        MenuStrip1.Items.AddRange(New ToolStripItem() {DatabaseToolStripMenuItem, MedewerkersToolStripMenuItem, StroomgebiedenToolStripMenuItem, ModelleersoftwareToolStripMenuItem, ProjectenToolStripMenuItem, ModellenToolStripMenuItem})
+        MenuStrip1.Items.AddRange(New ToolStripItem() {DatabaseToolStripMenuItem, MedewerkersToolStripMenuItem, StroomgebiedenToolStripMenuItem, ModelleersoftwareToolStripMenuItem, ProjectenToolStripMenuItem, ScenariosToolStripMenuItem, ModellenToolStripMenuItem})
         MenuStrip1.Location = New Point(0, 0)
         MenuStrip1.Name = "MenuStrip1"
         MenuStrip1.Size = New Size(1393, 28)
@@ -184,6 +191,52 @@ Partial Class frmModelBase
         ToevoegenToolStripMenuItem4.Size = New Size(165, 26)
         ToevoegenToolStripMenuItem4.Text = "Toevoegen"
         ' 
+        ' ScenariosToolStripMenuItem
+        ' 
+        ScenariosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {KlimaatscenariosToolStripMenuItem, OmgevingsscenariosToolStripMenuItem, OntwerpvariantenToolStripMenuItem})
+        ScenariosToolStripMenuItem.Name = "ScenariosToolStripMenuItem"
+        ScenariosToolStripMenuItem.Size = New Size(175, 24)
+        ScenariosToolStripMenuItem.Text = "Scenario's en Varianten"
+        ' 
+        ' KlimaatscenariosToolStripMenuItem
+        ' 
+        KlimaatscenariosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ToevoegenToolStripMenuItem5})
+        KlimaatscenariosToolStripMenuItem.Name = "KlimaatscenariosToolStripMenuItem"
+        KlimaatscenariosToolStripMenuItem.Size = New Size(231, 26)
+        KlimaatscenariosToolStripMenuItem.Text = "Klimaatscenario's"
+        ' 
+        ' ToevoegenToolStripMenuItem5
+        ' 
+        ToevoegenToolStripMenuItem5.Name = "ToevoegenToolStripMenuItem5"
+        ToevoegenToolStripMenuItem5.Size = New Size(165, 26)
+        ToevoegenToolStripMenuItem5.Text = "Toevoegen"
+        ' 
+        ' OmgevingsscenariosToolStripMenuItem
+        ' 
+        OmgevingsscenariosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ToevoegenToolStripMenuItem6})
+        OmgevingsscenariosToolStripMenuItem.Name = "OmgevingsscenariosToolStripMenuItem"
+        OmgevingsscenariosToolStripMenuItem.Size = New Size(231, 26)
+        OmgevingsscenariosToolStripMenuItem.Text = "Omgevingsscenario's"
+        ' 
+        ' ToevoegenToolStripMenuItem6
+        ' 
+        ToevoegenToolStripMenuItem6.Name = "ToevoegenToolStripMenuItem6"
+        ToevoegenToolStripMenuItem6.Size = New Size(165, 26)
+        ToevoegenToolStripMenuItem6.Text = "Toevoegen"
+        ' 
+        ' OntwerpvariantenToolStripMenuItem
+        ' 
+        OntwerpvariantenToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ToevoegenToolStripMenuItem7})
+        OntwerpvariantenToolStripMenuItem.Name = "OntwerpvariantenToolStripMenuItem"
+        OntwerpvariantenToolStripMenuItem.Size = New Size(231, 26)
+        OntwerpvariantenToolStripMenuItem.Text = "Ontwerpvarianten"
+        ' 
+        ' ToevoegenToolStripMenuItem7
+        ' 
+        ToevoegenToolStripMenuItem7.Name = "ToevoegenToolStripMenuItem7"
+        ToevoegenToolStripMenuItem7.Size = New Size(165, 26)
+        ToevoegenToolStripMenuItem7.Text = "Toevoegen"
+        ' 
         ' ModellenToolStripMenuItem
         ' 
         ModellenToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ToevoegenToolStripMenuItem, VerwijderenToolStripMenuItem})
@@ -235,7 +288,7 @@ Partial Class frmModelBase
         ' 
         SplitContainer1.Panel2.Controls.Add(SplitContainer2)
         SplitContainer1.Size = New Size(1393, 568)
-        SplitContainer1.SplitterDistance = 529
+        SplitContainer1.SplitterDistance = 535
         SplitContainer1.TabIndex = 1
         ' 
         ' grdModelSchematizations
@@ -249,7 +302,7 @@ Partial Class frmModelBase
         grdModelSchematizations.RowHeadersVisible = False
         grdModelSchematizations.RowHeadersWidth = 51
         grdModelSchematizations.RowTemplate.Height = 29
-        grdModelSchematizations.Size = New Size(493, 188)
+        grdModelSchematizations.Size = New Size(499, 188)
         grdModelSchematizations.TabIndex = 5
         ' 
         ' colCaseNaam
@@ -282,7 +335,7 @@ Partial Class frmModelBase
         grFilters.Controls.Add(cmbStroomgebieden)
         grFilters.Location = New Point(22, 64)
         grFilters.Name = "grFilters"
-        grFilters.Size = New Size(493, 204)
+        grFilters.Size = New Size(499, 204)
         grFilters.TabIndex = 4
         grFilters.TabStop = False
         grFilters.Text = "Filters"
@@ -326,14 +379,14 @@ Partial Class frmModelBase
         txtDatabase.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         txtDatabase.Location = New Point(118, 15)
         txtDatabase.Name = "txtDatabase"
-        txtDatabase.Size = New Size(397, 27)
+        txtDatabase.Size = New Size(403, 27)
         txtDatabase.TabIndex = 3
         ' 
         ' lblProgress
         ' 
         lblProgress.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
         lblProgress.AutoSize = True
-        lblProgress.Location = New Point(12, 495)
+        lblProgress.Location = New Point(22, 495)
         lblProgress.Name = "lblProgress"
         lblProgress.Size = New Size(88, 20)
         lblProgress.TabIndex = 2
@@ -342,9 +395,9 @@ Partial Class frmModelBase
         ' prProgress
         ' 
         prProgress.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
-        prProgress.Location = New Point(12, 527)
+        prProgress.Location = New Point(22, 527)
         prProgress.Name = "prProgress"
-        prProgress.Size = New Size(503, 29)
+        prProgress.Size = New Size(499, 29)
         prProgress.TabIndex = 1
         ' 
         ' lblDatabase
@@ -371,7 +424,7 @@ Partial Class frmModelBase
         ' 
         SplitContainer2.Panel2.Controls.Add(lblPad)
         SplitContainer2.Panel2.Controls.Add(lblPadlbl)
-        SplitContainer2.Size = New Size(860, 568)
+        SplitContainer2.Size = New Size(854, 568)
         SplitContainer2.SplitterDistance = 408
         SplitContainer2.TabIndex = 0
         ' 
@@ -398,7 +451,7 @@ Partial Class frmModelBase
         Map.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer
         Map.SelectedAreaFillColor = Color.FromArgb(CByte(33), CByte(65), CByte(105), CByte(225))
         Map.ShowTileGridLines = False
-        Map.Size = New Size(860, 405)
+        Map.Size = New Size(854, 405)
         Map.TabIndex = 0
         Map.Zoom = 0R
         ' 
@@ -492,4 +545,11 @@ Partial Class frmModelBase
     Friend WithEvents colStroomgebied As DataGridViewTextBoxColumn
     Friend WithEvents colModelType As DataGridViewTextBoxColumn
     Friend WithEvents Map As GMap.NET.WindowsForms.GMapControl
+    Friend WithEvents ScenariosToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents KlimaatscenariosToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToevoegenToolStripMenuItem5 As ToolStripMenuItem
+    Friend WithEvents OmgevingsscenariosToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToevoegenToolStripMenuItem6 As ToolStripMenuItem
+    Friend WithEvents OntwerpvariantenToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToevoegenToolStripMenuItem7 As ToolStripMenuItem
 End Class

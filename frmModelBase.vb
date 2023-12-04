@@ -4,6 +4,7 @@ Imports GMap.NET.WindowsForms.Markers
 Imports HYDROC01
 Imports HYDROC01.General
 Imports MapWinGIS
+Imports System.Drawing
 
 Public Class frmModelBase
 
@@ -148,6 +149,11 @@ Public Class frmModelBase
         Dim myForm As New frmAddModelCase(Setup)
         myForm.ShowDialog()
     End Sub
+    Private Sub ToevoegenToolStripMenuItem5_Click(sender As Object, e As EventArgs) Handles ToevoegenToolStripMenuItem5.Click
+        Dim myForm As New frmAddClimateScenario(Setup)
+        myForm.ShowDialog()
+    End Sub
+
 
     Private Sub grdModelSchematizations_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdModelSchematizations.CellContentClick
 
@@ -167,6 +173,9 @@ Public Class frmModelBase
 
         If dt.Rows.Count > 0 Then
 
+            Dim ModelModules As New clsModelModules
+            ModelModules.Flow1D.Topo.ReadAll = True
+
             ModelProjectname = dt.Rows(0).Item(0)
             ModelConfigFile = dt.Rows(0).Item(1)
 
@@ -183,6 +192,13 @@ Public Class frmModelBase
                 Select Case Me.Setup.GeneralFunctions.getExtensionFromFileName(ModelConfigFile).Trim.ToUpper
                     Case "XML"
                         'XML, so we assume it is a DIMR model
+                        Setup.InitModel(True, True)
+                        Setup.Model.ActiveProject = New ClsModelProject(Me.Setup, ModelDir, GeneralFunctions.enmSimulationModel.DIMR)
+                        Setup.setDIMRProjectAndCase(ModelConfigFile, ModelCaseName)
+                        Setup.ReadActiveCase(ModelModules, "")
+                        RenderModelOnMap(Setup.Model.ActiveProject.ActiveCase)
+
+
                     Case "CMT"
                         'CMT, so we assume it is a SOBEK 2 model
                         Setup.SetAddSobekProject(ModelDir, ModelDir, True, True)
@@ -192,8 +208,6 @@ Public Class frmModelBase
                             If myCaseName = ModelCaseName Then
                                 Dim myCase As HYDROC01.clsModelCase = Me.Setup.Model.ActiveProject.Cases.Item(myCaseName.Trim.ToUpper)
 
-                                Dim ModelModules As New clsModelModules
-                                ModelModules.Flow1D.Topo.ReadAll = True
 
                                 myCase.Read(ModelModules, "")
 
@@ -221,6 +235,9 @@ Public Class frmModelBase
             Dim MarkersOverlay As GMapOverlay
             Dim RouteOverlay As GMapOverlay
 
+            'start by clearing all overlays
+            Map.Overlays.Clear()
+
 
             'first we'll justs load a default map with a default location
             Map.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance
@@ -239,7 +256,7 @@ Public Class frmModelBase
 
             'create an overlay for our reaches, an overlay for our markers and an overlay for our selected route
             ReachesOverlay = New GMapOverlay("Reaches")
-            'MarkersOverlay = New GMapOverlay("Markers")
+            MarkersOverlay = New GMapOverlay("Markers")
             'RouteOverlay = New GMapOverlay("Route")
 
 
@@ -265,24 +282,99 @@ Public Class frmModelBase
                 ReachesOverlay.Routes.Add(reach)
             Next
 
-
-
-            'myCase.CFTopo.AddActiveReachesToGMapOverlay(ReachesOverlay)
             Map.Overlays.Add(ReachesOverlay)
-            Map.Refresh()
-            Map.Update()
+            'Map.Refresh()
+            'Map.Update()
 
-            ''add the reachnodes to the markersoverlay, then the reachobjects and add the markersoverlay to the map
+
+
+            'now we'll add the nodes to the map
+
+            Dim objectBitmap As Bitmap
+            Dim objectMarker As GMarkerGoogle
+
+            'next we will create markers for the reachnodes
+            Dim Nodes As Dictionary(Of String, HYDROC01.clsSbkReachNode) = myCase.CFTopo.getAllActiveReachNodes()
+
+            For Each myNode As clsSbkReachNode In Nodes.Values
+                'get the coordinate of the reachnode
+                Dim NodeCoordinate As clsXY = myNode.getXY
+                Dim NodeCoordinateGMap As PointLatLng = New PointLatLng(NodeCoordinate.Y, NodeCoordinate.X)
+
+                objectBitmap = Setup.GeneralFunctions.createObjectIconBitmap(myNode.nt, False) '.CreateCircleBitmap(Color.Gray, 12, Color.Black, 1)
+                objectMarker = New GMarkerGoogle(NodeCoordinateGMap, objectBitmap)
+                objectMarker.Offset = New System.Drawing.Point(-objectBitmap.Width / 2, -objectBitmap.Height / 2)  'since all reachnodes are symmetrical we can simple set the marker's offset to half of the width and height
+
+                Dim markerTag As New MarkerTag() With {
+                .ID = myNode.ID,
+                .NodeType = myNode.nt,
+                .Offset = objectMarker.Offset  'we keep track of the offset in order to look it up when changing color
+            }
+                objectMarker.Tag = markerTag
+                objectMarker.Offset = markerTag.Offset
+                objectMarker.ToolTipText = myNode.ID
+                objectMarker.ToolTipText = vbNewLine & myNode.ID
+                objectMarker.ToolTip.Fill = Brushes.DarkGray
+                objectMarker.ToolTip.Foreground = Brushes.White
+                objectMarker.ToolTip.Stroke = Pens.Black
+                objectMarker.ToolTip.TextPadding = New System.Drawing.Size(20, 20)
+                MarkersOverlay.Markers.Add(objectMarker)
+            Next
+
+            'then create markers for the reachobjects
+            Dim Objects As Dictionary(Of String, HYDROC01.clsSbkReachObject) = myCase.CFTopo.getAllActiveReachObjects
+            For Each myObj As clsSbkReachObject In Objects.Values
+                Select Case myObj.nt
+                    Case GeneralFunctions.enmObjectType.NodeCFWeir, GeneralFunctions.enmObjectType.NodeCFOrifice, GeneralFunctions.enmObjectType.NodeCFPump, GeneralFunctions.enmObjectType.NodeCFBridge, GeneralFunctions.enmObjectType.NodeCFCrossSection, GeneralFunctions.enmObjectType.NodeCFLateral, GeneralFunctions.enmObjectType.NodeCFGridpoint, GeneralFunctions.enmObjectType.NodeCFGridpointFixed
+                        objectBitmap = Setup.GeneralFunctions.createObjectIconBitmap(myObj.nt, False)
+                    Case Else
+                        Me.Setup.Log.AddWarning("Nodetype not (yet) supported for Sideview Map: " & myObj.nt.ToString)
+                        Continue For
+                End Select
+
+                'create our marker
+                Dim XY As clsXY = myObj.getXY
+                Dim LatLon As New PointLatLng(XY.Y, XY.X)
+                objectMarker = New GMarkerGoogle(LatLon, objectBitmap)
+
+                'set the offset of the marker
+                If myObj.isStructure Then
+                    'structures have triangular shape
+                    Dim triangleHeight As Double = objectBitmap.Width * System.Math.Sqrt(3) / 2.0
+                    objectMarker.Offset = New System.Drawing.Point(-objectBitmap.Width / 2, CInt(-triangleHeight / 2))
+                Else
+                    'symmetrical shape
+                    objectMarker.Offset = New System.Drawing.Point(-objectBitmap.Width / 2, -objectBitmap.Height / 2)
+                End If
+
+                Dim markerTag As New MarkerTag() With {
+                .ID = myObj.ID,
+                .NodeType = myObj.nt,
+                .Offset = objectMarker.Offset 'we keep track of the offset in the marker's tag so we can simply look it up when changing color
+            }
+                objectMarker.Tag = markerTag
+                objectMarker.ToolTipText = vbNewLine & myObj.ID
+                objectMarker.ToolTip.Fill = Brushes.DarkGray
+                objectMarker.ToolTip.Foreground = Brushes.White
+                objectMarker.ToolTip.Stroke = Pens.Black
+                objectMarker.ToolTip.TextPadding = New System.Drawing.Size(20, 20)
+                MarkersOverlay.Markers.Add(objectMarker)
+
+            Next
+
             'myCase.CFTopo.AddActiveReachNodesToGMapOverlay(MarkersOverlay, False)
             'myCase.CFTopo.AddActiveReachObjectsToGMapOverlay(MarkersOverlay)
-            'Map.Overlays.Add(MarkersOverlay)
+            Map.Overlays.Add(MarkersOverlay)
+
+            'now that we have the reaches, we can zoom to the extents of the model
+            Map.ZoomAndCenterRoutes("Reaches")
+
+
         Catch ex As Exception
             Stop
         End Try
 
 
     End Sub
-
-
 
 End Class
