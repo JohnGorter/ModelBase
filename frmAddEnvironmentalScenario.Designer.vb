@@ -33,6 +33,10 @@ Partial Class frmAddEnvironmentalScenario
         GroupBox1 = New GroupBox()
         grdEnvironmentalScenarios = New DataGridView()
         colScenarioName = New DataGridViewTextBoxColumn()
+        Label2 = New Label()
+        Label3 = New Label()
+        txtPublicationYear = New TextBox()
+        txtZichtjaar = New TextBox()
         GroupBox2.SuspendLayout()
         GroupBox1.SuspendLayout()
         CType(grdEnvironmentalScenarios, ComponentModel.ISupportInitialize).BeginInit()
@@ -40,6 +44,10 @@ Partial Class frmAddEnvironmentalScenario
         ' 
         ' GroupBox2
         ' 
+        GroupBox2.Controls.Add(txtZichtjaar)
+        GroupBox2.Controls.Add(txtPublicationYear)
+        GroupBox2.Controls.Add(Label3)
+        GroupBox2.Controls.Add(Label2)
         GroupBox2.Controls.Add(Label5)
         GroupBox2.Controls.Add(btnAdd)
         GroupBox2.Controls.Add(txtEnvironmentalScenarioExplanation)
@@ -73,16 +81,16 @@ Partial Class frmAddEnvironmentalScenario
         ' 
         ' txtEnvironmentalScenarioExplanation
         ' 
-        txtEnvironmentalScenarioExplanation.Location = New Point(22, 117)
+        txtEnvironmentalScenarioExplanation.Location = New Point(22, 178)
         txtEnvironmentalScenarioExplanation.Multiline = True
         txtEnvironmentalScenarioExplanation.Name = "txtEnvironmentalScenarioExplanation"
-        txtEnvironmentalScenarioExplanation.Size = New Size(298, 240)
+        txtEnvironmentalScenarioExplanation.Size = New Size(298, 179)
         txtEnvironmentalScenarioExplanation.TabIndex = 7
         ' 
         ' Label4
         ' 
         Label4.AutoSize = True
-        Label4.Location = New Point(22, 84)
+        Label4.Location = New Point(22, 155)
         Label4.Name = "Label4"
         Label4.Size = New Size(98, 20)
         Label4.TabIndex = 6
@@ -134,6 +142,38 @@ Partial Class frmAddEnvironmentalScenario
         colScenarioName.MinimumWidth = 6
         colScenarioName.Name = "colScenarioName"
         ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Location = New Point(22, 78)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(102, 20)
+        Label2.TabIndex = 10
+        Label2.Text = "Publicatiejaar:"
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.Location = New Point(22, 110)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(70, 20)
+        Label3.TabIndex = 11
+        Label3.Text = "Zichtjaar:"
+        ' 
+        ' txtPublicationYear
+        ' 
+        txtPublicationYear.Location = New Point(130, 75)
+        txtPublicationYear.Name = "txtPublicationYear"
+        txtPublicationYear.Size = New Size(190, 27)
+        txtPublicationYear.TabIndex = 12
+        ' 
+        ' txtZichtjaar
+        ' 
+        txtZichtjaar.Location = New Point(130, 110)
+        txtZichtjaar.Name = "txtZichtjaar"
+        txtZichtjaar.Size = New Size(190, 27)
+        txtZichtjaar.TabIndex = 13
+        ' 
         ' frmAddEnvironmentalScenario
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
@@ -161,4 +201,8 @@ Partial Class frmAddEnvironmentalScenario
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents grdEnvironmentalScenarios As DataGridView
     Friend WithEvents colScenarioName As DataGridViewTextBoxColumn
+    Friend WithEvents txtZichtjaar As TextBox
+    Friend WithEvents txtPublicationYear As TextBox
+    Friend WithEvents Label3 As Label
+    Friend WithEvents Label2 As Label
 End Class

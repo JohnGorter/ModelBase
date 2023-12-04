@@ -16,7 +16,7 @@ Public Class frmAddModelCase
         'populate the combobox with the availagble modelprojects
         Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Setup.SqliteCon, "SELECT DISTINCT MODELPROJECTNAAM FROM tblModelProjecten;", cmbModelProject)
         Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Setup.SqliteCon, "SELECT DISTINCT COMBINATIENAAM FROM tblModelModules;", cmbModules)
-        Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Setup.SqliteCon, "SELECT DISTINCT NAAM FROM tblClimateScenario;", cmbClimateScenario)
+        Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Setup.SqliteCon, "SELECT DISTINCT NAAM FROM tblKlimaatscenarios;", cmbClimateScenario)
         Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Setup.SqliteCon, "SELECT DISTINCT NAAM FROM tblMedewerkers;", cmbEmployee)
         Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Setup.SqliteCon, "SELECT DISTINCT MODELPROJECTNAAM FROM tblModelProjecten;", cmbParentProject)
         Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Setup.SqliteCon, "SELECT DISTINCT MODELCASENAAM FROM tblModelCases;", cmbParentCase)
@@ -114,7 +114,7 @@ Public Class frmAddModelCase
         Description = txtDescription.Text
 
         If ModelProjectName.Length = 0 Then
-            MsgBox("Selecteer het modelproject waartoe de nieuwe case behoort.")
+            MsgBox("Selecteer het modelproject waaraan de nieuwe case moet worden toegekend.")
         ElseIf ModelCaseName.Length = 0 Then
             MsgBox("Geef de naam van de nieuwe case op.")
         ElseIf Modules.Length = 0 Then
@@ -133,4 +133,7 @@ Public Class frmAddModelCase
 
     End Sub
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        MsgBox("Een configuratiebestand aanwijzen is verplicht voor het aanmaken van een case. Voor D-Hydro-DIMR, verwijs naar de DIMR_Config.xml; voor SOBEK, verwijs naar de caselist.cmt.")
+    End Sub
 End Class

@@ -32,13 +32,14 @@ Partial Class frmAddProject
         GroupBox2 = New GroupBox()
         cmbMedewerker = New ComboBox()
         Label3 = New Label()
-        txtConsultant = New TextBox()
         Label2 = New Label()
         txtProjectNumber = New TextBox()
         Label1 = New Label()
         lblName = New Label()
         txtProjectName = New TextBox()
         btnAdd = New Button()
+        cmbConsultancyFirm = New ComboBox()
+        Label4 = New Label()
         GroupBox1.SuspendLayout()
         CType(grdProjects, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox2.SuspendLayout()
@@ -99,9 +100,10 @@ Partial Class frmAddProject
         ' 
         ' GroupBox2
         ' 
+        GroupBox2.Controls.Add(Label4)
+        GroupBox2.Controls.Add(cmbConsultancyFirm)
         GroupBox2.Controls.Add(cmbMedewerker)
         GroupBox2.Controls.Add(Label3)
-        GroupBox2.Controls.Add(txtConsultant)
         GroupBox2.Controls.Add(Label2)
         GroupBox2.Controls.Add(txtProjectNumber)
         GroupBox2.Controls.Add(Label1)
@@ -118,7 +120,7 @@ Partial Class frmAddProject
         ' cmbMedewerker
         ' 
         cmbMedewerker.FormattingEnabled = True
-        cmbMedewerker.Location = New Point(153, 160)
+        cmbMedewerker.Location = New Point(153, 69)
         cmbMedewerker.Name = "cmbMedewerker"
         cmbMedewerker.Size = New Size(234, 28)
         cmbMedewerker.TabIndex = 8
@@ -126,23 +128,16 @@ Partial Class frmAddProject
         ' Label3
         ' 
         Label3.AutoSize = True
-        Label3.Location = New Point(18, 163)
+        Label3.Location = New Point(18, 72)
         Label3.Name = "Label3"
-        Label3.Size = New Size(119, 20)
+        Label3.Size = New Size(129, 20)
         Label3.TabIndex = 7
-        Label3.Text = "Medewerker WL:"
-        ' 
-        ' txtConsultant
-        ' 
-        txtConsultant.Location = New Point(153, 118)
-        txtConsultant.Name = "txtConsultant"
-        txtConsultant.Size = New Size(234, 27)
-        txtConsultant.TabIndex = 6
+        Label3.Text = "Medewerker WL: *"
         ' 
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Location = New Point(18, 121)
+        Label2.Location = New Point(18, 139)
         Label2.Name = "Label2"
         Label2.Size = New Size(102, 20)
         Label2.TabIndex = 5
@@ -150,7 +145,7 @@ Partial Class frmAddProject
         ' 
         ' txtProjectNumber
         ' 
-        txtProjectNumber.Location = New Point(153, 73)
+        txtProjectNumber.Location = New Point(153, 103)
         txtProjectNumber.Name = "txtProjectNumber"
         txtProjectNumber.Size = New Size(234, 27)
         txtProjectNumber.TabIndex = 4
@@ -158,7 +153,7 @@ Partial Class frmAddProject
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(18, 76)
+        Label1.Location = New Point(18, 106)
         Label1.Name = "Label1"
         Label1.Size = New Size(113, 20)
         Label1.TabIndex = 3
@@ -169,9 +164,9 @@ Partial Class frmAddProject
         lblName.AutoSize = True
         lblName.Location = New Point(18, 40)
         lblName.Name = "lblName"
-        lblName.Size = New Size(41, 20)
+        lblName.Size = New Size(51, 20)
         lblName.TabIndex = 2
-        lblName.Text = "Titel:"
+        lblName.Text = "Titel: *"
         ' 
         ' txtProjectName
         ' 
@@ -188,6 +183,23 @@ Partial Class frmAddProject
         btnAdd.TabIndex = 0
         btnAdd.Text = "Toevoegen"
         btnAdd.UseVisualStyleBackColor = True
+        ' 
+        ' cmbConsultancyFirm
+        ' 
+        cmbConsultancyFirm.FormattingEnabled = True
+        cmbConsultancyFirm.Location = New Point(153, 136)
+        cmbConsultancyFirm.Name = "cmbConsultancyFirm"
+        cmbConsultancyFirm.Size = New Size(234, 28)
+        cmbConsultancyFirm.TabIndex = 9
+        ' 
+        ' Label4
+        ' 
+        Label4.AutoSize = True
+        Label4.Location = New Point(18, 388)
+        Label4.Name = "Label4"
+        Label4.Size = New Size(182, 20)
+        Label4.TabIndex = 10
+        Label4.Text = "Velden met * zijn verplicht"
         ' 
         ' frmAddProject
         ' 
@@ -215,11 +227,12 @@ Partial Class frmAddProject
     Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents cmbMedewerker As ComboBox
     Friend WithEvents Label3 As Label
-    Friend WithEvents txtConsultant As TextBox
     Friend WithEvents Label2 As Label
     Friend WithEvents txtProjectNumber As TextBox
     Friend WithEvents Label1 As Label
     Friend WithEvents lblName As Label
     Friend WithEvents txtProjectName As TextBox
     Friend WithEvents btnAdd As Button
+    Friend WithEvents Label4 As Label
+    Friend WithEvents cmbConsultancyFirm As ComboBox
 End Class

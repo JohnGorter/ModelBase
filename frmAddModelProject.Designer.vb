@@ -40,6 +40,7 @@ Partial Class frmAddModelProject
         GroupBox1 = New GroupBox()
         grdProjecten = New DataGridView()
         colProjectNaam = New DataGridViewTextBoxColumn()
+        Label6 = New Label()
         grSeettings.SuspendLayout()
         GroupBox1.SuspendLayout()
         CType(grdProjecten, ComponentModel.ISupportInitialize).BeginInit()
@@ -47,6 +48,8 @@ Partial Class frmAddModelProject
         ' 
         ' grSeettings
         ' 
+        grSeettings.Controls.Add(Label6)
+        grSeettings.Controls.Add(btnAddProject)
         grSeettings.Controls.Add(Label5)
         grSeettings.Controls.Add(cmbProject)
         grSeettings.Controls.Add(cmbCatchment)
@@ -60,7 +63,7 @@ Partial Class frmAddModelProject
         grSeettings.Controls.Add(Label1)
         grSeettings.Location = New Point(597, 12)
         grSeettings.Name = "grSeettings"
-        grSeettings.Size = New Size(656, 404)
+        grSeettings.Size = New Size(656, 489)
         grSeettings.TabIndex = 0
         grSeettings.TabStop = False
         grSeettings.Text = "Settings"
@@ -70,26 +73,26 @@ Partial Class frmAddModelProject
         Label5.AutoSize = True
         Label5.Location = New Point(16, 169)
         Label5.Name = "Label5"
-        Label5.Size = New Size(55, 20)
+        Label5.Size = New Size(68, 20)
         Label5.TabIndex = 10
-        Label5.Text = "Project"
+        Label5.Text = "Project: *"
         ' 
         ' cmbProject
         ' 
         cmbProject.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         cmbProject.FormattingEnabled = True
-        cmbProject.Location = New Point(156, 166)
+        cmbProject.Location = New Point(182, 166)
         cmbProject.Name = "cmbProject"
-        cmbProject.Size = New Size(494, 28)
+        cmbProject.Size = New Size(468, 28)
         cmbProject.TabIndex = 5
         ' 
         ' cmbCatchment
         ' 
         cmbCatchment.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         cmbCatchment.FormattingEnabled = True
-        cmbCatchment.Location = New Point(156, 132)
+        cmbCatchment.Location = New Point(182, 132)
         cmbCatchment.Name = "cmbCatchment"
-        cmbCatchment.Size = New Size(494, 28)
+        cmbCatchment.Size = New Size(468, 28)
         cmbCatchment.TabIndex = 4
         ' 
         ' Label4
@@ -97,9 +100,9 @@ Partial Class frmAddModelProject
         Label4.AutoSize = True
         Label4.Location = New Point(16, 135)
         Label4.Name = "Label4"
-        Label4.Size = New Size(105, 20)
+        Label4.Size = New Size(118, 20)
         Label4.TabIndex = 7
-        Label4.Text = "Stroomgebied"
+        Label4.Text = "Stroomgebied: *"
         ' 
         ' btnModelProject
         ' 
@@ -116,25 +119,25 @@ Partial Class frmAddModelProject
         Label3.AutoSize = True
         Label3.Location = New Point(16, 67)
         Label3.Name = "Label3"
-        Label3.Size = New Size(134, 20)
+        Label3.Size = New Size(147, 20)
         Label3.TabIndex = 5
-        Label3.Text = "Modelleersoftware"
+        Label3.Text = "Modelleersoftware: *"
         ' 
         ' cmbModellingSoftware
         ' 
         cmbModellingSoftware.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         cmbModellingSoftware.FormattingEnabled = True
-        cmbModellingSoftware.Location = New Point(156, 64)
+        cmbModellingSoftware.Location = New Point(182, 64)
         cmbModellingSoftware.Name = "cmbModellingSoftware"
-        cmbModellingSoftware.Size = New Size(494, 28)
+        cmbModellingSoftware.Size = New Size(468, 28)
         cmbModellingSoftware.TabIndex = 2
         ' 
         ' txtprojectDir
         ' 
         txtprojectDir.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        txtprojectDir.Location = New Point(156, 98)
+        txtprojectDir.Location = New Point(182, 98)
         txtprojectDir.Name = "txtprojectDir"
-        txtprojectDir.Size = New Size(460, 27)
+        txtprojectDir.Size = New Size(434, 27)
         txtprojectDir.TabIndex = 3
         ' 
         ' Label2
@@ -142,16 +145,16 @@ Partial Class frmAddModelProject
         Label2.AutoSize = True
         Label2.Location = New Point(16, 101)
         Label2.Name = "Label2"
-        Label2.Size = New Size(85, 20)
+        Label2.Size = New Size(98, 20)
         Label2.TabIndex = 2
-        Label2.Text = "Projectmap"
+        Label2.Text = "Projectmap: *"
         ' 
         ' txtProjectName
         ' 
         txtProjectName.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        txtProjectName.Location = New Point(156, 31)
+        txtProjectName.Location = New Point(182, 31)
         txtProjectName.Name = "txtProjectName"
-        txtProjectName.Size = New Size(494, 27)
+        txtProjectName.Size = New Size(468, 27)
         txtProjectName.TabIndex = 1
         ' 
         ' Label1
@@ -159,13 +162,13 @@ Partial Class frmAddModelProject
         Label1.AutoSize = True
         Label1.Location = New Point(15, 34)
         Label1.Name = "Label1"
-        Label1.Size = New Size(92, 20)
+        Label1.Size = New Size(149, 20)
         Label1.TabIndex = 0
-        Label1.Text = "Projectnaam"
+        Label1.Text = "Modelprojectnaam: *"
         ' 
         ' btnAddProject
         ' 
-        btnAddProject.Location = New Point(1137, 453)
+        btnAddProject.Location = New Point(534, 435)
         btnAddProject.Name = "btnAddProject"
         btnAddProject.Size = New Size(116, 48)
         btnAddProject.TabIndex = 6
@@ -177,7 +180,7 @@ Partial Class frmAddModelProject
         GroupBox1.Controls.Add(grdProjecten)
         GroupBox1.Location = New Point(12, 14)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Size = New Size(579, 402)
+        GroupBox1.Size = New Size(579, 487)
         GroupBox1.TabIndex = 7
         GroupBox1.TabStop = False
         GroupBox1.Text = "Reeds in de database"
@@ -192,7 +195,7 @@ Partial Class frmAddModelProject
         grdProjecten.RowHeadersVisible = False
         grdProjecten.RowHeadersWidth = 51
         grdProjecten.RowTemplate.Height = 29
-        grdProjecten.Size = New Size(542, 347)
+        grdProjecten.Size = New Size(542, 443)
         grdProjecten.TabIndex = 0
         ' 
         ' colProjectNaam
@@ -202,13 +205,21 @@ Partial Class frmAddModelProject
         colProjectNaam.MinimumWidth = 6
         colProjectNaam.Name = "colProjectNaam"
         ' 
+        ' Label6
+        ' 
+        Label6.AutoSize = True
+        Label6.Location = New Point(16, 457)
+        Label6.Name = "Label6"
+        Label6.Size = New Size(185, 20)
+        Label6.TabIndex = 11
+        Label6.Text = "Velden met * zijn verplicht."
+        ' 
         ' frmAddModelProject
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1265, 513)
         Controls.Add(GroupBox1)
-        Controls.Add(btnAddProject)
         Controls.Add(grSeettings)
         Icon = CType(resources.GetObject("$this.Icon"), Icon)
         Name = "frmAddModelProject"
@@ -237,4 +248,5 @@ Partial Class frmAddModelProject
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents grdProjecten As DataGridView
     Friend WithEvents colProjectNaam As DataGridViewTextBoxColumn
+    Friend WithEvents Label6 As Label
 End Class
