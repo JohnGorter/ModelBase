@@ -270,12 +270,12 @@ Public Class frmModelBase
             'myCase.CFTopo.AddActiveReachesToGMapOverlay(ReachesOverlay)
             Map.Overlays.Add(ReachesOverlay)
             Map.Refresh()
+            Map.Update()
 
             ''add the reachnodes to the markersoverlay, then the reachobjects and add the markersoverlay to the map
             'myCase.CFTopo.AddActiveReachNodesToGMapOverlay(MarkersOverlay, False)
             'myCase.CFTopo.AddActiveReachObjectsToGMapOverlay(MarkersOverlay)
             'Map.Overlays.Add(MarkersOverlay)
-            stop
         Catch ex As Exception
             Stop
         End Try
