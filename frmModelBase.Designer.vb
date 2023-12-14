@@ -48,6 +48,7 @@ Partial Class frmModelBase
         ToevoegenToolStripMenuItem6 = New ToolStripMenuItem()
         ModellenToolStripMenuItem = New ToolStripMenuItem()
         ToevoegenToolStripMenuItem = New ToolStripMenuItem()
+        BasisModelToolStripMenuItem = New ToolStripMenuItem()
         ProjectToolStripMenuItem = New ToolStripMenuItem()
         CaseToolStripMenuItem = New ToolStripMenuItem()
         VerwijderenToolStripMenuItem = New ToolStripMenuItem()
@@ -91,7 +92,8 @@ Partial Class frmModelBase
         MenuStrip1.Items.AddRange(New ToolStripItem() {DatabaseToolStripMenuItem, IngenieursbureausToolStripMenuItem, MedewerkersToolStripMenuItem, StroomgebiedenToolStripMenuItem, ModelleersoftwareToolStripMenuItem, ProjectenToolStripMenuItem, ScenariosToolStripMenuItem, ModellenToolStripMenuItem, OverToolStripMenuItem})
         MenuStrip1.Location = New Point(0, 0)
         MenuStrip1.Name = "MenuStrip1"
-        MenuStrip1.Size = New Size(1393, 28)
+        MenuStrip1.Padding = New Padding(5, 2, 0, 2)
+        MenuStrip1.Size = New Size(1219, 24)
         MenuStrip1.TabIndex = 0
         MenuStrip1.Text = "MenuStrip1"
         ' 
@@ -99,187 +101,194 @@ Partial Class frmModelBase
         ' 
         DatabaseToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {OpenToolStripMenuItem, ImportToolStripMenuItem, CreateNewToolStripMenuItem})
         DatabaseToolStripMenuItem.Name = "DatabaseToolStripMenuItem"
-        DatabaseToolStripMenuItem.Size = New Size(86, 24)
+        DatabaseToolStripMenuItem.Size = New Size(67, 20)
         DatabaseToolStripMenuItem.Text = "Database"
         ' 
         ' OpenToolStripMenuItem
         ' 
         OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        OpenToolStripMenuItem.Size = New Size(159, 26)
+        OpenToolStripMenuItem.Size = New Size(127, 22)
         OpenToolStripMenuItem.Text = "Verbinden"
         ' 
         ' ImportToolStripMenuItem
         ' 
         ImportToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {AccessToolStripMenuItem})
         ImportToolStripMenuItem.Name = "ImportToolStripMenuItem"
-        ImportToolStripMenuItem.Size = New Size(159, 26)
+        ImportToolStripMenuItem.Size = New Size(127, 22)
         ImportToolStripMenuItem.Text = "Data"
         ' 
         ' AccessToolStripMenuItem
         ' 
         AccessToolStripMenuItem.Name = "AccessToolStripMenuItem"
-        AccessToolStripMenuItem.Size = New Size(283, 26)
+        AccessToolStripMenuItem.Size = New Size(228, 22)
         AccessToolStripMenuItem.Text = "Importeren uit Access (.mdb)"
         ' 
         ' CreateNewToolStripMenuItem
         ' 
         CreateNewToolStripMenuItem.Name = "CreateNewToolStripMenuItem"
-        CreateNewToolStripMenuItem.Size = New Size(159, 26)
+        CreateNewToolStripMenuItem.Size = New Size(127, 22)
         CreateNewToolStripMenuItem.Text = "Nieuw"
         ' 
         ' IngenieursbureausToolStripMenuItem
         ' 
         IngenieursbureausToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ToevoegenToolStripMenuItem8})
         IngenieursbureausToolStripMenuItem.Name = "IngenieursbureausToolStripMenuItem"
-        IngenieursbureausToolStripMenuItem.Size = New Size(143, 24)
+        IngenieursbureausToolStripMenuItem.Size = New Size(116, 20)
         IngenieursbureausToolStripMenuItem.Text = "Ingenieursbureaus"
         ' 
         ' ToevoegenToolStripMenuItem8
         ' 
         ToevoegenToolStripMenuItem8.Name = "ToevoegenToolStripMenuItem8"
-        ToevoegenToolStripMenuItem8.Size = New Size(165, 26)
+        ToevoegenToolStripMenuItem8.Size = New Size(131, 22)
         ToevoegenToolStripMenuItem8.Text = "Toevoegen"
         ' 
         ' MedewerkersToolStripMenuItem
         ' 
         MedewerkersToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ToevoegenToolStripMenuItem1})
         MedewerkersToolStripMenuItem.Name = "MedewerkersToolStripMenuItem"
-        MedewerkersToolStripMenuItem.Size = New Size(111, 24)
+        MedewerkersToolStripMenuItem.Size = New Size(89, 20)
         MedewerkersToolStripMenuItem.Text = "Medewerkers"
         ' 
         ' ToevoegenToolStripMenuItem1
         ' 
         ToevoegenToolStripMenuItem1.Name = "ToevoegenToolStripMenuItem1"
-        ToevoegenToolStripMenuItem1.Size = New Size(165, 26)
+        ToevoegenToolStripMenuItem1.Size = New Size(131, 22)
         ToevoegenToolStripMenuItem1.Text = "Toevoegen"
         ' 
         ' StroomgebiedenToolStripMenuItem
         ' 
         StroomgebiedenToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ToevoegenToolStripMenuItem2})
         StroomgebiedenToolStripMenuItem.Name = "StroomgebiedenToolStripMenuItem"
-        StroomgebiedenToolStripMenuItem.Size = New Size(135, 24)
+        StroomgebiedenToolStripMenuItem.Size = New Size(107, 20)
         StroomgebiedenToolStripMenuItem.Text = "Stroomgebieden"
         ' 
         ' ToevoegenToolStripMenuItem2
         ' 
         ToevoegenToolStripMenuItem2.Name = "ToevoegenToolStripMenuItem2"
-        ToevoegenToolStripMenuItem2.Size = New Size(165, 26)
+        ToevoegenToolStripMenuItem2.Size = New Size(131, 22)
         ToevoegenToolStripMenuItem2.Text = "Toevoegen"
         ' 
         ' ModelleersoftwareToolStripMenuItem
         ' 
         ModelleersoftwareToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ToevoegenToolStripMenuItem3})
         ModelleersoftwareToolStripMenuItem.Name = "ModelleersoftwareToolStripMenuItem"
-        ModelleersoftwareToolStripMenuItem.Size = New Size(148, 24)
+        ModelleersoftwareToolStripMenuItem.Size = New Size(117, 20)
         ModelleersoftwareToolStripMenuItem.Text = "Modelleersoftware"
         ' 
         ' ToevoegenToolStripMenuItem3
         ' 
         ToevoegenToolStripMenuItem3.DropDownItems.AddRange(New ToolStripItem() {SoftwareToolStripMenuItem, CombinatieVanModulesToolStripMenuItem})
         ToevoegenToolStripMenuItem3.Name = "ToevoegenToolStripMenuItem3"
-        ToevoegenToolStripMenuItem3.Size = New Size(165, 26)
+        ToevoegenToolStripMenuItem3.Size = New Size(131, 22)
         ToevoegenToolStripMenuItem3.Text = "Toevoegen"
         ' 
         ' SoftwareToolStripMenuItem
         ' 
         SoftwareToolStripMenuItem.Name = "SoftwareToolStripMenuItem"
-        SoftwareToolStripMenuItem.Size = New Size(257, 26)
+        SoftwareToolStripMenuItem.Size = New Size(207, 22)
         SoftwareToolStripMenuItem.Text = "Software"
         ' 
         ' CombinatieVanModulesToolStripMenuItem
         ' 
         CombinatieVanModulesToolStripMenuItem.Name = "CombinatieVanModulesToolStripMenuItem"
-        CombinatieVanModulesToolStripMenuItem.Size = New Size(257, 26)
+        CombinatieVanModulesToolStripMenuItem.Size = New Size(207, 22)
         CombinatieVanModulesToolStripMenuItem.Text = "Combinatie van modules"
         ' 
         ' ProjectenToolStripMenuItem
         ' 
         ProjectenToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ToevoegenToolStripMenuItem4})
         ProjectenToolStripMenuItem.Name = "ProjectenToolStripMenuItem"
-        ProjectenToolStripMenuItem.Size = New Size(85, 24)
+        ProjectenToolStripMenuItem.Size = New Size(69, 20)
         ProjectenToolStripMenuItem.Text = "Projecten"
         ' 
         ' ToevoegenToolStripMenuItem4
         ' 
         ToevoegenToolStripMenuItem4.Name = "ToevoegenToolStripMenuItem4"
-        ToevoegenToolStripMenuItem4.Size = New Size(165, 26)
+        ToevoegenToolStripMenuItem4.Size = New Size(131, 22)
         ToevoegenToolStripMenuItem4.Text = "Toevoegen"
         ' 
         ' ScenariosToolStripMenuItem
         ' 
         ScenariosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {KlimaatscenariosToolStripMenuItem, OmgevingsscenariosToolStripMenuItem})
         ScenariosToolStripMenuItem.Name = "ScenariosToolStripMenuItem"
-        ScenariosToolStripMenuItem.Size = New Size(175, 24)
+        ScenariosToolStripMenuItem.Size = New Size(140, 20)
         ScenariosToolStripMenuItem.Text = "Scenario's en Varianten"
         ' 
         ' KlimaatscenariosToolStripMenuItem
         ' 
         KlimaatscenariosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ToevoegenToolStripMenuItem5})
         KlimaatscenariosToolStripMenuItem.Name = "KlimaatscenariosToolStripMenuItem"
-        KlimaatscenariosToolStripMenuItem.Size = New Size(231, 26)
+        KlimaatscenariosToolStripMenuItem.Size = New Size(187, 22)
         KlimaatscenariosToolStripMenuItem.Text = "Klimaatscenario's"
         ' 
         ' ToevoegenToolStripMenuItem5
         ' 
         ToevoegenToolStripMenuItem5.Name = "ToevoegenToolStripMenuItem5"
-        ToevoegenToolStripMenuItem5.Size = New Size(165, 26)
+        ToevoegenToolStripMenuItem5.Size = New Size(131, 22)
         ToevoegenToolStripMenuItem5.Text = "Toevoegen"
         ' 
         ' OmgevingsscenariosToolStripMenuItem
         ' 
         OmgevingsscenariosToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ToevoegenToolStripMenuItem6})
         OmgevingsscenariosToolStripMenuItem.Name = "OmgevingsscenariosToolStripMenuItem"
-        OmgevingsscenariosToolStripMenuItem.Size = New Size(231, 26)
+        OmgevingsscenariosToolStripMenuItem.Size = New Size(187, 22)
         OmgevingsscenariosToolStripMenuItem.Text = "Omgevingsscenario's"
         ' 
         ' ToevoegenToolStripMenuItem6
         ' 
         ToevoegenToolStripMenuItem6.Name = "ToevoegenToolStripMenuItem6"
-        ToevoegenToolStripMenuItem6.Size = New Size(165, 26)
+        ToevoegenToolStripMenuItem6.Size = New Size(131, 22)
         ToevoegenToolStripMenuItem6.Text = "Toevoegen"
         ' 
         ' ModellenToolStripMenuItem
         ' 
         ModellenToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ToevoegenToolStripMenuItem, VerwijderenToolStripMenuItem})
         ModellenToolStripMenuItem.Name = "ModellenToolStripMenuItem"
-        ModellenToolStripMenuItem.Size = New Size(86, 24)
+        ModellenToolStripMenuItem.Size = New Size(69, 20)
         ModellenToolStripMenuItem.Text = "Modellen"
         ' 
         ' ToevoegenToolStripMenuItem
         ' 
-        ToevoegenToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {ProjectToolStripMenuItem, CaseToolStripMenuItem})
+        ToevoegenToolStripMenuItem.DropDownItems.AddRange(New ToolStripItem() {BasisModelToolStripMenuItem, ProjectToolStripMenuItem, CaseToolStripMenuItem})
         ToevoegenToolStripMenuItem.Name = "ToevoegenToolStripMenuItem"
-        ToevoegenToolStripMenuItem.Size = New Size(170, 26)
+        ToevoegenToolStripMenuItem.Size = New Size(180, 22)
         ToevoegenToolStripMenuItem.Text = "Toevoegen"
+        ' 
+        ' BasisModelToolStripMenuItem
+        ' 
+        BasisModelToolStripMenuItem.Name = "BasisModelToolStripMenuItem"
+        BasisModelToolStripMenuItem.Size = New Size(180, 22)
+        BasisModelToolStripMenuItem.Text = "BasisModel"
         ' 
         ' ProjectToolStripMenuItem
         ' 
         ProjectToolStripMenuItem.Name = "ProjectToolStripMenuItem"
-        ProjectToolStripMenuItem.Size = New Size(181, 26)
-        ProjectToolStripMenuItem.Text = "ModelProject"
+        ProjectToolStripMenuItem.Size = New Size(180, 22)
+        ProjectToolStripMenuItem.Text = "ProjectModel"
         ' 
         ' CaseToolStripMenuItem
         ' 
         CaseToolStripMenuItem.Name = "CaseToolStripMenuItem"
-        CaseToolStripMenuItem.Size = New Size(181, 26)
+        CaseToolStripMenuItem.Size = New Size(180, 22)
         CaseToolStripMenuItem.Text = "ModelCase"
         ' 
         ' VerwijderenToolStripMenuItem
         ' 
         VerwijderenToolStripMenuItem.Name = "VerwijderenToolStripMenuItem"
-        VerwijderenToolStripMenuItem.Size = New Size(170, 26)
+        VerwijderenToolStripMenuItem.Size = New Size(180, 22)
         VerwijderenToolStripMenuItem.Text = "Verwijderen"
         ' 
         ' OverToolStripMenuItem
         ' 
         OverToolStripMenuItem.Name = "OverToolStripMenuItem"
-        OverToolStripMenuItem.Size = New Size(54, 24)
+        OverToolStripMenuItem.Size = New Size(44, 20)
         OverToolStripMenuItem.Text = "Over"
         ' 
         ' SplitContainer1
         ' 
         SplitContainer1.Dock = DockStyle.Fill
-        SplitContainer1.Location = New Point(0, 28)
+        SplitContainer1.Location = New Point(0, 24)
+        SplitContainer1.Margin = New Padding(3, 2, 3, 2)
         SplitContainer1.Name = "SplitContainer1"
         ' 
         ' SplitContainer1.Panel1
@@ -294,8 +303,8 @@ Partial Class frmModelBase
         ' SplitContainer1.Panel2
         ' 
         SplitContainer1.Panel2.Controls.Add(SplitContainer2)
-        SplitContainer1.Size = New Size(1393, 568)
-        SplitContainer1.SplitterDistance = 535
+        SplitContainer1.Size = New Size(1219, 423)
+        SplitContainer1.SplitterDistance = 468
         SplitContainer1.TabIndex = 1
         ' 
         ' grdModelSchematizations
@@ -304,12 +313,13 @@ Partial Class frmModelBase
         grdModelSchematizations.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         grdModelSchematizations.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         grdModelSchematizations.Columns.AddRange(New DataGridViewColumn() {colCaseNaam, colStroomgebied, colModelType})
-        grdModelSchematizations.Location = New Point(22, 285)
+        grdModelSchematizations.Location = New Point(19, 214)
+        grdModelSchematizations.Margin = New Padding(3, 2, 3, 2)
         grdModelSchematizations.Name = "grdModelSchematizations"
         grdModelSchematizations.RowHeadersVisible = False
         grdModelSchematizations.RowHeadersWidth = 51
         grdModelSchematizations.RowTemplate.Height = 29
-        grdModelSchematizations.Size = New Size(499, 188)
+        grdModelSchematizations.Size = New Size(437, 141)
         grdModelSchematizations.TabIndex = 5
         ' 
         ' colCaseNaam
@@ -340,9 +350,11 @@ Partial Class frmModelBase
         grFilters.Controls.Add(Label2)
         grFilters.Controls.Add(Label1)
         grFilters.Controls.Add(cmbStroomgebieden)
-        grFilters.Location = New Point(22, 64)
+        grFilters.Location = New Point(19, 48)
+        grFilters.Margin = New Padding(3, 2, 3, 2)
         grFilters.Name = "grFilters"
-        grFilters.Size = New Size(499, 204)
+        grFilters.Padding = New Padding(3, 2, 3, 2)
+        grFilters.Size = New Size(437, 153)
         grFilters.TabIndex = 4
         grFilters.TabStop = False
         grFilters.Text = "Filters"
@@ -351,26 +363,27 @@ Partial Class frmModelBase
         ' 
         cmbModelleersoftware.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         cmbModelleersoftware.FormattingEnabled = True
-        cmbModelleersoftware.Location = New Point(174, 65)
+        cmbModelleersoftware.Location = New Point(152, 49)
+        cmbModelleersoftware.Margin = New Padding(3, 2, 3, 2)
         cmbModelleersoftware.Name = "cmbModelleersoftware"
-        cmbModelleersoftware.Size = New Size(307, 28)
+        cmbModelleersoftware.Size = New Size(269, 23)
         cmbModelleersoftware.TabIndex = 7
         ' 
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Location = New Point(34, 68)
+        Label2.Location = New Point(30, 51)
         Label2.Name = "Label2"
-        Label2.Size = New Size(134, 20)
+        Label2.Size = New Size(105, 15)
         Label2.TabIndex = 6
         Label2.Text = "Modelleersoftware"
         ' 
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(34, 34)
+        Label1.Location = New Point(30, 26)
         Label1.Name = "Label1"
-        Label1.Size = New Size(105, 20)
+        Label1.Size = New Size(82, 15)
         Label1.TabIndex = 5
         Label1.Text = "Stroomgebied"
         ' 
@@ -378,43 +391,46 @@ Partial Class frmModelBase
         ' 
         cmbStroomgebieden.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         cmbStroomgebieden.FormattingEnabled = True
-        cmbStroomgebieden.Location = New Point(174, 31)
+        cmbStroomgebieden.Location = New Point(152, 23)
+        cmbStroomgebieden.Margin = New Padding(3, 2, 3, 2)
         cmbStroomgebieden.Name = "cmbStroomgebieden"
-        cmbStroomgebieden.Size = New Size(307, 28)
+        cmbStroomgebieden.Size = New Size(269, 23)
         cmbStroomgebieden.TabIndex = 0
         ' 
         ' txtDatabase
         ' 
         txtDatabase.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-        txtDatabase.Location = New Point(118, 15)
+        txtDatabase.Location = New Point(103, 11)
+        txtDatabase.Margin = New Padding(3, 2, 3, 2)
         txtDatabase.Name = "txtDatabase"
-        txtDatabase.Size = New Size(403, 27)
+        txtDatabase.Size = New Size(353, 23)
         txtDatabase.TabIndex = 3
         ' 
         ' lblProgress
         ' 
         lblProgress.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
         lblProgress.AutoSize = True
-        lblProgress.Location = New Point(22, 495)
+        lblProgress.Location = New Point(19, 368)
         lblProgress.Name = "lblProgress"
-        lblProgress.Size = New Size(88, 20)
+        lblProgress.Size = New Size(71, 15)
         lblProgress.TabIndex = 2
         lblProgress.Text = "Voortgang..."
         ' 
         ' prProgress
         ' 
         prProgress.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
-        prProgress.Location = New Point(22, 527)
+        prProgress.Location = New Point(19, 392)
+        prProgress.Margin = New Padding(3, 2, 3, 2)
         prProgress.Name = "prProgress"
-        prProgress.Size = New Size(499, 29)
+        prProgress.Size = New Size(437, 22)
         prProgress.TabIndex = 1
         ' 
         ' lblDatabase
         ' 
         lblDatabase.AutoSize = True
-        lblDatabase.Location = New Point(22, 18)
+        lblDatabase.Location = New Point(19, 14)
         lblDatabase.Name = "lblDatabase"
-        lblDatabase.Size = New Size(72, 20)
+        lblDatabase.Size = New Size(55, 15)
         lblDatabase.TabIndex = 0
         lblDatabase.Text = "Database"
         ' 
@@ -422,6 +438,7 @@ Partial Class frmModelBase
         ' 
         SplitContainer2.Dock = DockStyle.Fill
         SplitContainer2.Location = New Point(0, 0)
+        SplitContainer2.Margin = New Padding(3, 2, 3, 2)
         SplitContainer2.Name = "SplitContainer2"
         SplitContainer2.Orientation = Orientation.Horizontal
         ' 
@@ -433,8 +450,9 @@ Partial Class frmModelBase
         ' 
         SplitContainer2.Panel2.Controls.Add(lblPad)
         SplitContainer2.Panel2.Controls.Add(lblPadlbl)
-        SplitContainer2.Size = New Size(854, 568)
-        SplitContainer2.SplitterDistance = 408
+        SplitContainer2.Size = New Size(747, 423)
+        SplitContainer2.SplitterDistance = 303
+        SplitContainer2.SplitterWidth = 3
         SplitContainer2.TabIndex = 0
         ' 
         ' Map
@@ -447,6 +465,7 @@ Partial Class frmModelBase
         Map.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow
         Map.LevelsKeepInMemory = 5
         Map.Location = New Point(0, 0)
+        Map.Margin = New Padding(3, 2, 3, 2)
         Map.MarkersEnabled = True
         Map.MaxZoom = 15
         Map.MinZoom = 2
@@ -460,37 +479,38 @@ Partial Class frmModelBase
         Map.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer
         Map.SelectedAreaFillColor = Color.FromArgb(CByte(33), CByte(65), CByte(105), CByte(225))
         Map.ShowTileGridLines = False
-        Map.Size = New Size(854, 405)
+        Map.Size = New Size(747, 301)
         Map.TabIndex = 0
         Map.Zoom = 0R
         ' 
         ' lblPad
         ' 
         lblPad.AutoSize = True
-        lblPad.Location = New Point(97, 19)
+        lblPad.Location = New Point(85, 14)
         lblPad.Name = "lblPad"
-        lblPad.Size = New Size(15, 20)
+        lblPad.Size = New Size(13, 15)
         lblPad.TabIndex = 8
         lblPad.Text = ".."
         ' 
         ' lblPadlbl
         ' 
         lblPadlbl.AutoSize = True
-        lblPadlbl.Location = New Point(25, 19)
+        lblPadlbl.Location = New Point(22, 14)
         lblPadlbl.Name = "lblPadlbl"
-        lblPadlbl.Size = New Size(36, 20)
+        lblPadlbl.Size = New Size(30, 15)
         lblPadlbl.TabIndex = 0
         lblPadlbl.Text = "Pad:"
         ' 
         ' frmModelBase
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1393, 596)
+        ClientSize = New Size(1219, 447)
         Controls.Add(SplitContainer1)
         Controls.Add(MenuStrip1)
         Icon = CType(resources.GetObject("$this.Icon"), Icon)
         MainMenuStrip = MenuStrip1
+        Margin = New Padding(3, 2, 3, 2)
         Name = "frmModelBase"
         Text = "De Modellenbeheerder"
         WindowState = FormWindowState.Maximized
@@ -564,4 +584,5 @@ Partial Class frmModelBase
     Friend WithEvents ToevoegenToolStripMenuItem8 As ToolStripMenuItem
     Friend WithEvents cmbProject As ComboBox
     Friend WithEvents Label3 As Label
+    Friend WithEvents BasisModelToolStripMenuItem As ToolStripMenuItem
 End Class

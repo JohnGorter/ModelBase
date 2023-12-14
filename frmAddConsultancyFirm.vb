@@ -13,7 +13,7 @@ Public Class frmAddConsultancyFirm
     End Sub
 
     Public Sub RefreshConsultancyFirms()
-        Dim query As String = "SELECT DISTINCT INGENIEURSBUREAU FROM tblIngenieursbureaus;"
+        Dim query As String = "SELECT DISTINCT NAAM FROM tblIngenieursbureaus;"
         Dim dt As New DataTable
 
         Setup.GeneralFunctions.SQLiteQuery(Setup.SqliteCon, query, dt)
@@ -33,7 +33,7 @@ Public Class frmAddConsultancyFirm
         If txtName.Text.Length = 0 Then
             MsgBox("Geef aub een naam voor het ingenieursbureau op.")
         Else
-            Dim query As String = "INSERT INTO tblIngenieursbureaus (INGENIEURSBUREAU) VALUES ('" & txtName.Text & "');"
+            Dim query As String = "INSERT INTO tblIngenieursbureaus (NAAM) VALUES ('" & txtName.Text & "');"
             Setup.GeneralFunctions.SQLiteNoQuery(Setup.SqliteCon, query)
             RefreshConsultancyFirms()
         End If
