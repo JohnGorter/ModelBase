@@ -10,6 +10,16 @@ Public Class frmModelBase
 
     Dim Setup As New clsSetup
 
+    'TO DO:
+    'here we define the names of the tables in the database and their fields as variables
+    Dim ProjectModelsTable As String = "tblProjectmodellen"
+    Dim ProjectModelsNameField As String = "PROJECTMODELNAAM"
+    Dim ProjectModelsVersionField As String = "VERSIE"
+    Dim ProjectModelsProjectField As String = "PROJECT"
+    Dim ProjectModelsBaseModelField As String = "BASISMODEL"
+    Dim ProjectModelsBaseModelVersionField As String = "BASISMODELVERSIE"
+    Dim ProjectModelsDescriptionField As String = "OMSCHRIJVING"
+
     Private Sub frmModelBase_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         'set the progress bar
@@ -40,41 +50,50 @@ Public Class frmModelBase
         Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Setup.SqliteCon, "SELECT DISTINCT NAAM FROM tblModelleersoftware;", cmbModelleersoftware)
 
         'populate the datagridview with all available models
-        PopulateModels()
+        PopulateProjectModels()
     End Sub
 
-    Public Sub PopulateModels()
+    Public Function GetBaseModelNameFromProjectModel(ProjectModel As String) As String
+        'find the base model associated with this projectmodel
+        Dim query As String = "SELECT BASISMODEL FROM tblProjectmodellen WHERE PROJECTMODELNAAM = '" & ProjectModel & "';"
+        Dim dt As New DataTable
+        Setup.GeneralFunctions.SQLiteQuery(Setup.SqliteCon, query, dt)
+        If dt.Rows.Count > 0 Then
+            Return dt.Rows(0).Item(0)
+        Else
+            Return ""
+        End If
+    End Function
+
+    Public Sub PopulateProjectModels()
         'populate the datagridview with all available models
         grdModelSchematizations.Rows.Clear()
-
-        Dim query As String = "SELECT MODELCASENAAM, MODELPROJECTNAAM, MODULES FROM tblModelCases;"
+        Dim query As String = "SELECT MODELCASENAAM, PROJECTMODEL, MODULES FROM tblModelCases;"
         Dim dt As New DataTable
         Setup.GeneralFunctions.SQLiteQuery(Setup.SqliteCon, query, dt, False)
 
         grdModelSchematizations.Rows.Clear()
         For i = 0 To dt.Rows.Count - 1
 
-            'find the name of the catchment and check if the catchment is selected in the combobox
-            'if not, continue our loop
-            Dim stroomgebied As String = ""
-            Dim query2 As String = "SELECT STROOMGEBIED FROM tblModelProjecten WHERE MODELPROJECTNAAM = '" & dt.Rows(i).Item(1) & "';"
-            Dim dt2 As New DataTable
-            Setup.GeneralFunctions.SQLiteQuery(Me.Setup.SqliteCon, query2, dt2)
-            If dt2.Rows.Count > 0 Then
-                stroomgebied = dt2.Rows(0).Item(0)
+            'the name of the modelling software is linked to the basemode. So first find the base model associated with this projectmodel
+            If IsDBNull(dt.Rows(i).Item(1)) Then
+                Me.Setup.Log.AddError("No PROJECTMODEL found for MODELCASENAAM: " & dt.Rows(i).Item(0) & ": please check database integrity.")
+                Continue For
             End If
-            If cmbStroomgebieden.Text.Length > 0 AndAlso cmbStroomgebieden.Text <> stroomgebied Then Continue For
 
-            'find the name of the modelling software and check if it is selected in the combobox
-            'if not, continue our loop
+            Dim BaseModel As String = GetBaseModelNameFromProjectModel(dt.Rows(i).Item(1))
+
             Dim modelleersoftware As String = ""
-            Dim query3 As String = "SELECT MODELLEERSOFTWARE FROM tblModelProjecten WHERE MODELPROJECTNAAM = '" & dt.Rows(i).Item(1) & "';"
+            Dim stroomgebied As String = ""
+            Dim query3 As String = $"SELECT MODELLEERSOFTWARE, STROOMGEBIED FROM tblBasismodellen WHERE BASISMODELNAAM = '{BaseModel}';"
             Dim dt3 As New DataTable
             Setup.GeneralFunctions.SQLiteQuery(Setup.SqliteCon, query3, dt3)
             If dt3.Rows.Count > 0 Then
                 modelleersoftware = dt3.Rows(0).Item(0)
+                stroomgebied = dt3.Rows(0).Item(1)
             End If
             If cmbModelleersoftware.Text.Length > 0 AndAlso cmbModelleersoftware.Text <> modelleersoftware Then Continue For
+            If cmbStroomgebieden.Text.Length > 0 AndAlso cmbStroomgebieden.Text <> stroomgebied Then Continue For
 
             'if we get here, our case has passed all filters and we can add the model to the grid
             Dim row As String() = New String() {dt.Rows(i).Item(0), stroomgebied, modelleersoftware}
@@ -141,7 +160,7 @@ Public Class frmModelBase
     End Sub
 
     Private Sub ProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ProjectToolStripMenuItem.Click
-        Dim myForm As New frmAddModelProject(Setup)
+        Dim myForm As New frmAddProjectModel(Setup)
         myForm.ShowDialog()
     End Sub
 
@@ -172,7 +191,7 @@ Public Class frmModelBase
         Dim ModelDir As String = ""
 
         'the user has clicked on one of the cases. Let's plot it on the map
-        Dim query As String = "SELECT MODELPROJECTNAAM, CONFIGURATIEBESTAND FROM tblModelCases WHERE MODELCASENAAM = '" & grdModelSchematizations.Rows(e.RowIndex).Cells(0).Value & "';"
+        Dim query As String = "SELECT PROJECTMODEL, CONFIGURATIEBESTAND FROM tblModelCases WHERE MODELCASENAAM = '" & grdModelSchematizations.Rows(e.RowIndex).Cells(0).Value & "';"
         Dim dt As New DataTable
         Setup.GeneralFunctions.SQLiteQuery(Setup.SqliteCon, query, dt)
 
@@ -185,7 +204,7 @@ Public Class frmModelBase
             ModelConfigFile = dt.Rows(0).Item(1)
 
             'find the modelproject
-            Dim query2 As String = "SELECT MODELDIRECTORY FROM tblModelProjecten WHERE MODELPROJECTNAAM = '" & dt.Rows(0).Item(0) & "';"
+            Dim query2 As String = "SELECT MODELDIRECTORY FROM tblProjectmodellen WHERE PROJECTMODELNAAM = '" & dt.Rows(0).Item(0) & "';"
             Dim dt2 As New DataTable
             Setup.GeneralFunctions.SQLiteQuery(Setup.SqliteCon, query2, dt2)
 
@@ -393,15 +412,21 @@ Public Class frmModelBase
         myForm.ShowDialog()
     End Sub
 
+    Private Sub BasisModelToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BasisModelToolStripMenuItem.Click
+        Dim myForm As New frmAddBaseModel(Me.Setup)
+        myForm.ShowDialog()
+    End Sub
+
     Private Sub cmbStroomgebieden_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbStroomgebieden.SelectedIndexChanged
-        PopulateModels()
+        PopulateProjectModels()
     End Sub
 
     Private Sub cmbModelleersoftware_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbModelleersoftware.SelectedIndexChanged
-        PopulateModels()
+        PopulateProjectModels()
     End Sub
 
     Private Sub cmbProject_SelectedIndexChanged(sender As Object, e As EventArgs)
-        PopulateModels()
+        PopulateProjectModels()
     End Sub
+
 End Class
