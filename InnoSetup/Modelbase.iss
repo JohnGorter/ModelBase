@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Modellenbeheer"
-#define MyAppVersion "0.1.0.0"
+#define MyAppVersion "1.1.0.0"
 #define MyAppPublisher "Hydroconsult"
 #define MyAppURL "http://www.sobek.tools"
 #define SetupLocation "c:\GITHUB\ModelBase\InnoSetup"

@@ -59,12 +59,18 @@ Public Class frmAddProjectModel
         ElseIf Not ValidateVersionFormat(txtVersion.text) Then
             MsgBox("Het versienummer moet in het formaat x.x.x zijn.")
         Else
-            Dim Version As String = "_p" & txtVersion.Text '_p voor projectmodel
 
-            Dim query As String = "INSERT INTO tblProjectmodellen (PROJECTMODELNAAM, MODELDIRECTORY, BASISMODEL, BASISMODELVERSIE, PROJECT, VERSIE) VALUES ('" & txtProjectModelName.Text & "','" & txtModelDir.Text & "','" & cmbBasisModel.Text & "','" & cmbBasismodelVersie.Text & "','" & cmbProject.Text & "','" & txtVersion.Text & "');"
-            Setup.GeneralFunctions.SQLiteNoQuery(Setup.SqliteCon, query)
+            'check if the project model with this name and version already exists
+            Dim query As String = "SELECT PROJECTMODELNAAM, VERSIE FROM tblProjectmodellen WHERE LOWER(PROJECTMODELNAAM) = LOWER('" & txtProjectModelName.Text & "') AND VERSIE = '" & txtVersion.Text & "';"
+            Dim dt As New DataTable
+            Setup.GeneralFunctions.SQLiteQuery(Setup.SqliteCon, query, dt)
+            If dt.Rows.Count > 0 Then
+                MsgBox("Er bestaat al een projectmodel met deze naam en versie.")
+            Else
+                query = "INSERT INTO tblProjectmodellen (PROJECTMODELNAAM, MODELDIRECTORY, BASISMODEL, BASISMODELVERSIE, PROJECT, VERSIE) VALUES ('" & txtProjectModelName.Text & "','" & txtModelDir.Text & "','" & cmbBasisModel.Text & "','" & cmbBasismodelVersie.Text & "','" & cmbProject.Text & "','" & txtVersion.Text & "');"
+                Setup.GeneralFunctions.SQLiteNoQuery(Setup.SqliteCon, query)
+            End If
         End If
-
 
         RefreshProjectModels()
     End Sub
@@ -77,10 +83,6 @@ Public Class frmAddProjectModel
         ValidateVersionFormat(txtVersion.Text)
     End Sub
 
-
-    Private Sub grdProjectModels_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdProjectModels.CellContentClick
-
-    End Sub
 
 
     Private Sub SetPlaceholderText()

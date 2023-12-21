@@ -28,7 +28,7 @@ Public Class frmAddProject
 
     Private Sub frmAddProject_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Me.Setup.SqliteCon, "SELECT DISTINCT NAAM FROM tblMedewerkers;", cmbMedewerker)
-        Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Me.Setup.SqliteCon, "SELECT DISTINCT INGENIEURSBUREAU FROM tblIngenieursbureaus;", cmbConsultancyFirm)
+        Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Me.Setup.SqliteCon, "SELECT DISTINCT NAAM FROM tblIngenieursbureaus;", cmbConsultancyFirm)
         RefreshProjects()
     End Sub
 
