@@ -47,6 +47,7 @@ Public Class frmAddBaseModel
         ElseIf Not ValidateVersionFormat(txtVersion.text) Then
             MsgBox("Het versienummer moet in het formaat x.x zijn.")
         Else
+
             Dim CaseName As String = ""
             If cmbCaseName.Enabled = True AndAlso cmbCaseName.Text.Length > 0 Then
                 'this is a model where the case name is selected from a list
@@ -55,10 +56,17 @@ Public Class frmAddBaseModel
                 CaseName = txtCaseNaam.Text
             End If
 
-            Dim Version As String = "b" & txtVersion.Text 'b voor basismodel
+            'check if the base model with this name and version already exists
+            Dim query As String = "SELECT BASISMODELNAAM, VERSIE FROM tblBasismodellen WHERE LOWER(BASISMODELNAAM) = LOWER('" & txtModelName.Text & "') AND VERSIE = '" & txtVersion.Text & "';"
+            Dim dt As New DataTable
+            Setup.GeneralFunctions.SQLiteQuery(Setup.SqliteCon, query, dt)
+            If dt.Rows.Count > 0 Then
+                MsgBox("Er bestaat al een basismodel met deze naam en versie.")
+            Else
+                query = "INSERT INTO tblBasismodellen (BASISMODELNAAM, MODELDIRECTORY, CONFIGFILE, CASENAAM, MODELLEERSOFTWARE, STROOMGEBIED, VERSIE, OMSCHRIJVING) VALUES ('" & txtModelName.Text & "','" & txtModelDir.Text & "','" & txtConfigFile.Text & "','" & CaseName & "','" & cmbModellingSoftware.Text & "','" & cmbCatchment.Text & "','" & txtVersion.Text & "','" & txtDescription.Text & "');"
+                Setup.GeneralFunctions.SQLiteNoQuery(Setup.SqliteCon, query)
+            End If
 
-            Dim query As String = "INSERT INTO tblBasismodellen (BASISMODELNAAM, MODELDIRECTORY, CONFIGFILE, CASENAAM, MODELLEERSOFTWARE, STROOMGEBIED, VERSIE, OMSCHRIJVING) VALUES ('" & txtModelName.Text & "','" & txtModelDir.Text & "','" & txtConfigFile.Text & "','" & CaseName & "','" & cmbModellingSoftware.Text & "','" & cmbCatchment.Text & "','" & Version & "','" & txtDescription.Text & "');"
-            Setup.GeneralFunctions.SQLiteNoQuery(Setup.SqliteCon, query)
         End If
 
         RefreshModels()

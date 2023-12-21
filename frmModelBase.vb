@@ -22,6 +22,8 @@ Public Class frmModelBase
 
     Private Sub frmModelBase_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
+        btnRefresh.Text = Char.ConvertFromUtf32(&H21BB)
+
         'set the progress bar
         Setup.SetProgress(prProgress, lblProgress)
 
@@ -66,37 +68,33 @@ Public Class frmModelBase
     End Function
 
     Public Sub PopulateProjectModels()
+
+        Dim query As String = "SELECT NAAM, STROOMGEBIED, SOFTWARE FROM tblModelschematisaties"
+
+        'first we'll add the filters
+        Dim queryconstraints As String = " WHERE "
+        If cmbStroomgebieden.Text.Length > 0 Then
+            queryconstraints = queryconstraints & " STROOMGEBIED = '" & cmbStroomgebieden.Text & "'"
+        End If
+        If cmbModelleersoftware.Text.Length > 0 Then
+            If queryconstraints.Length > 7 Then queryconstraints &= queryconstraints & " AND "
+            queryconstraints &= queryconstraints & " SOFTWARE = '" & cmbModelleersoftware.Text & "'"
+        End If
+
+        If queryconstraints.Length > 7 Then
+            query &= queryconstraints & ";"
+        Else
+            query &= ";"
+        End If
+
+
         'populate the datagridview with all available models
         grdModelSchematizations.Rows.Clear()
-        Dim query As String = "SELECT MODELCASENAAM, PROJECTMODEL, MODULES FROM tblModelCases;"
         Dim dt As New DataTable
         Setup.GeneralFunctions.SQLiteQuery(Setup.SqliteCon, query, dt, False)
-
-        grdModelSchematizations.Rows.Clear()
         For i = 0 To dt.Rows.Count - 1
-
-            'the name of the modelling software is linked to the basemode. So first find the base model associated with this projectmodel
-            If IsDBNull(dt.Rows(i).Item(1)) Then
-                Me.Setup.Log.AddError("No PROJECTMODEL found for MODELCASENAAM: " & dt.Rows(i).Item(0) & ": please check database integrity.")
-                Continue For
-            End If
-
-            Dim BaseModel As String = GetBaseModelNameFromProjectModel(dt.Rows(i).Item(1))
-
-            Dim modelleersoftware As String = ""
-            Dim stroomgebied As String = ""
-            Dim query3 As String = $"SELECT MODELLEERSOFTWARE, STROOMGEBIED FROM tblBasismodellen WHERE BASISMODELNAAM = '{BaseModel}';"
-            Dim dt3 As New DataTable
-            Setup.GeneralFunctions.SQLiteQuery(Setup.SqliteCon, query3, dt3)
-            If dt3.Rows.Count > 0 Then
-                modelleersoftware = dt3.Rows(0).Item(0)
-                stroomgebied = dt3.Rows(0).Item(1)
-            End If
-            If cmbModelleersoftware.Text.Length > 0 AndAlso cmbModelleersoftware.Text <> modelleersoftware Then Continue For
-            If cmbStroomgebieden.Text.Length > 0 AndAlso cmbStroomgebieden.Text <> stroomgebied Then Continue For
-
             'if we get here, our case has passed all filters and we can add the model to the grid
-            Dim row As String() = New String() {dt.Rows(i).Item(0), stroomgebied, modelleersoftware}
+            Dim row As String() = New String() {dt.Rows(i).Item(0), dt.Rows(i).Item(1), dt.Rows(i).Item(2)}
             grdModelSchematizations.Rows.Add(row)
         Next
 
@@ -118,6 +116,9 @@ Public Class frmModelBase
 
             My.Settings.Database = txtDatabase.Text
             My.Settings.Save()
+
+            PopulateControls()
+
         End If
 
     End Sub
@@ -159,20 +160,11 @@ Public Class frmModelBase
         myForm.ShowDialog()
     End Sub
 
-    Private Sub ProjectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ProjectToolStripMenuItem.Click
-        Dim myForm As New frmAddProjectModel(Setup)
-        myForm.ShowDialog()
-    End Sub
-
     Private Sub ToevoegenToolStripMenuItem4_Click(sender As Object, e As EventArgs) Handles ToevoegenToolStripMenuItem4.Click
         Dim myForm As New frmAddProject(Setup)
         myForm.ShowDialog()
     End Sub
 
-    Private Sub CaseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CaseToolStripMenuItem.Click
-        Dim myForm As New frmAddModelCase(Setup)
-        myForm.ShowDialog()
-    End Sub
     Private Sub ToevoegenToolStripMenuItem5_Click(sender As Object, e As EventArgs) Handles ToevoegenToolStripMenuItem5.Click
         Dim myForm As New frmAddClimateScenario(Setup)
         myForm.ShowDialog()
@@ -186,12 +178,11 @@ Public Class frmModelBase
     Private Sub grdModelSchematizations_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdModelSchematizations.CellClick
 
         Dim ModelCaseName As String = grdModelSchematizations.Rows(e.RowIndex).Cells(0).Value
-        Dim ModelProjectname As String = ""
         Dim ModelConfigFile As String = ""
         Dim ModelDir As String = ""
 
         'the user has clicked on one of the cases. Let's plot it on the map
-        Dim query As String = "SELECT PROJECTMODEL, CONFIGURATIEBESTAND FROM tblModelCases WHERE MODELCASENAAM = '" & grdModelSchematizations.Rows(e.RowIndex).Cells(0).Value & "';"
+        Dim query As String = "SELECT CONFIGURATIEBESTAND, MODELDIRECTORY FROM tblModelschematisaties WHERE NAAM = '" & grdModelSchematizations.Rows(e.RowIndex).Cells(0).Value & "';"
         Dim dt As New DataTable
         Setup.GeneralFunctions.SQLiteQuery(Setup.SqliteCon, query, dt)
 
@@ -200,53 +191,44 @@ Public Class frmModelBase
             Dim ModelModules As New clsModelModules
             ModelModules.Flow1D.Topo.ReadAll = True
 
-            ModelProjectname = dt.Rows(0).Item(0)
-            ModelConfigFile = dt.Rows(0).Item(1)
+            ModelConfigFile = dt.Rows(0).Item(0)
+            ModelDir = dt.Rows(0).Item(1)
 
-            'find the modelproject
-            Dim query2 As String = "SELECT MODELDIRECTORY FROM tblProjectmodellen WHERE PROJECTMODELNAAM = '" & dt.Rows(0).Item(0) & "';"
-            Dim dt2 As New DataTable
-            Setup.GeneralFunctions.SQLiteQuery(Setup.SqliteCon, query2, dt2)
-
-            If dt2.Rows.Count > 0 Then
-                ModelDir = dt2.Rows(0).Item(0)
-
-                'now we have all the information to read the  model schematization and plot it on the map
-                'based on the file eension, we know which type of model schematization to read
-                Select Case Me.Setup.GeneralFunctions.getExtensionFromFileName(ModelConfigFile).Trim.ToUpper
-                    Case "XML"
-                        'XML, so we assume it is a DIMR model
-                        Setup.InitModel(True, True)
-                        Setup.Model.ActiveProject = New ClsModelProject(Me.Setup, ModelDir, GeneralFunctions.enmSimulationModel.DIMR)
-                        Setup.setDIMRProjectAndCase(ModelConfigFile, ModelCaseName)
-                        Setup.ReadActiveCase(ModelModules, "")
-                        RenderModelOnMap(Setup.Model.ActiveProject.ActiveCase)
+            'now we have all the information to read the  model schematization and plot it on the map
+            'based on the file eension, we know which type of model schematization to read
+            Select Case Me.Setup.GeneralFunctions.getExtensionFromFileName(ModelConfigFile).Trim.ToUpper
+                Case "XML"
+                    'XML, so we assume it is a DIMR model
+                    Setup.InitModel(True, True)
+                    Setup.Model.ActiveProject = New ClsModelProject(Me.Setup, ModelDir, GeneralFunctions.enmSimulationModel.DIMR)
+                    Setup.setDIMRProjectAndCase(ModelConfigFile, ModelCaseName)
+                    Setup.ReadActiveCase(ModelModules, "")
+                    RenderModelOnMap(Setup.Model.ActiveProject.ActiveCase)
 
 
-                    Case "CMT"
-                        'CMT, so we assume it is a SOBEK 2 model
-                        Setup.SetAddSobekProject(ModelDir, ModelDir, True, True)
-                        Setup.Model.ActiveProject.setPenColors()
-                        Dim myCases As List(Of String) = Me.Setup.Model.ActiveProject.getListOfCaseNames()
-                        For Each myCaseName As String In myCases
-                            If myCaseName = ModelCaseName Then
-                                Dim myCase As HYDROC01.clsModelCase = Me.Setup.Model.ActiveProject.Cases.Item(myCaseName.Trim.ToUpper)
+                Case "CMT"
+                    'CMT, so we assume it is a SOBEK 2 model
+                    Setup.SetAddSobekProject(ModelDir, ModelDir, True, True)
+                    Setup.Model.ActiveProject.setPenColors()
+                    Dim myCases As List(Of String) = Me.Setup.Model.ActiveProject.getListOfCaseNames()
+                    For Each myCaseName As String In myCases
+                        If myCaseName = ModelCaseName Then
+                            Dim myCase As HYDROC01.clsModelCase = Me.Setup.Model.ActiveProject.Cases.Item(myCaseName.Trim.ToUpper)
 
 
-                                myCase.Read(ModelModules, "")
+                            myCase.Read(ModelModules, "")
 
-                                RenderModelOnMap(myCase)
+                            RenderModelOnMap(myCase)
 
-                                Exit For
-                            End If
-                        Next
-                End Select
+                            Exit For
+                        End If
+                    Next
+            End Select
 
 
 
 
 
-            End If
         End If
 
 
@@ -403,17 +385,12 @@ Public Class frmModelBase
     End Sub
 
     Private Sub ToevoegenToolStripMenuItem8_Click(sender As Object, e As EventArgs) Handles ToevoegenToolStripMenuItem8.Click
-        Dim myForm As New frmAddConsultancyFirm(Me.Setup)
+        Dim myForm As New frmAddSingleItem(Me.Setup, "Ingenieursbureau", "tblIngenieursbureaus")
         myForm.ShowDialog()
     End Sub
 
     Private Sub ToevoegenToolStripMenuItem6_Click(sender As Object, e As EventArgs) Handles ToevoegenToolStripMenuItem6.Click
         Dim myForm As New frmAddEnvironmentalScenario(Me.Setup)
-        myForm.ShowDialog()
-    End Sub
-
-    Private Sub BasisModelToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BasisModelToolStripMenuItem.Click
-        Dim myForm As New frmAddBaseModel(Me.Setup)
         myForm.ShowDialog()
     End Sub
 
@@ -429,4 +406,47 @@ Public Class frmModelBase
         PopulateProjectModels()
     End Sub
 
+    Private Sub ToevoegenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ToevoegenToolStripMenuItem.Click
+        Dim myForm As New frmAddModelschematization(Me.Setup)
+        myForm.ShowDialog()
+    End Sub
+
+    Private Sub ToevoegenToolStripMenuItem7_Click(sender As Object, e As EventArgs) Handles ToevoegenToolStripMenuItem7.Click
+        Dim myForm As New frmAddSingleItem(Me.Setup, "Toepassing", "tblToepassingen")
+        myForm.ShowDialog()
+    End Sub
+
+    Private Sub ModelbouwscriptToevoegenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ModelbouwscriptToevoegenToolStripMenuItem.Click
+        Dim myForm As New frmAddSingleItem(Me.Setup, "Modelbouwscript", "tblModelbouwscripts")
+        myForm.ShowDialog()
+    End Sub
+
+    Private Sub BronHoogtedataToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BronHoogtedataToolStripMenuItem.Click
+        Dim myForm As New frmAddSingleItem(Me.Setup, "Gegevensbron hoogtedata", "tblHoogtedatabron")
+        myForm.ShowDialog()
+    End Sub
+
+    Private Sub BronKwelToevoegenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BronKwelToevoegenToolStripMenuItem.Click
+        Dim myForm As New frmAddSingleItem(Me.Setup, "Gegevensbron kwel", "tblKweldatabron")
+        myForm.ShowDialog()
+    End Sub
+
+    Private Sub GegevensbronLandgebruikToevoegenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GegevensbronLandgebruikToevoegenToolStripMenuItem.Click
+        Dim myForm As New frmAddSingleItem(Me.Setup, "Gegevensbron landgebruiksdata", "tblLandgebruiksdatabron")
+        myForm.ShowDialog()
+    End Sub
+
+    Private Sub GegevensbronBodemsoortToevoegenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GegevensbronBodemsoortToevoegenToolStripMenuItem.Click
+        Dim myForm As New frmAddSingleItem(Me.Setup, "Gegevensbron bodemsoort", "tblBodemsoortdatabron")
+        myForm.ShowDialog()
+    End Sub
+
+    Private Sub GegevensbronNeerslagToevoegenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GegevensbronNeerslagToevoegenToolStripMenuItem.Click
+        Dim myForm As New frmAddSingleItem(Me.Setup, "Gegevensbron neerslag", "tblNeerslagdatabron")
+        myForm.ShowDialog()
+    End Sub
+
+    Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
+        PopulateControls()
+    End Sub
 End Class
