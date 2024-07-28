@@ -5,6 +5,7 @@ Imports HYDROC01
 Imports HYDROC01.General
 Imports MapWinGIS
 Imports System.Drawing
+Imports System.Text.RegularExpressions
 
 Public Class frmModelBase
 
@@ -27,8 +28,25 @@ Public Class frmModelBase
         'set the progress bar
         Setup.SetProgress(prProgress, lblProgress)
 
-        'retrieve the database path from the settings file
-        txtDatabase.Text = My.Settings.Database
+        'if we're in debug modes get the settings file from our debug directory
+        Dim SettingsPath As String
+        If System.Diagnostics.Debugger.IsAttached Then
+            SettingsPath = "c:\GITHUB\ModelBase\InnoSetup\settings.ini"
+        Else
+            SettingsPath = Application.StartupPath & "\settings.ini"
+        End If
+
+        'if present, retrieve the database from a settings.txt file in the application's directory
+        If System.IO.File.Exists(SettingsPath) Then
+            Dim sr As New System.IO.StreamReader(SettingsPath)
+            'parse the first line of the ini file and retrieve the database path
+            txtDatabase.Text = ParseDatabasePath(sr.ReadLine)
+            sr.Close()
+        Else
+            'retrieve the database path from the settings file
+            txtDatabase.Text = My.Settings.Database
+        End If
+
 
         ConnectAndUpgrade()
 
@@ -36,6 +54,16 @@ Public Class frmModelBase
 
     End Sub
 
+    Function ParseDatabasePath(line As String) As String
+        Dim pattern As String = "database\s*=\s*""(.+)"""
+        Dim match As Match = Regex.Match(line, pattern)
+
+        If match.Success Then
+            Return match.Groups(1).Value
+        Else
+            Return "Database path not found"
+        End If
+    End Function
     Public Sub ConnectAndUpgrade()
         If System.IO.File.Exists(txtDatabase.Text) Then
             'set the connection and upgrade the database
@@ -48,6 +76,9 @@ Public Class frmModelBase
     End Sub
 
     Public Sub PopulateControls()
+
+        ConnectAndUpgrade()
+
         Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Setup.SqliteCon, "SELECT DISTINCT STROOMGEBIED FROM tblStroomgebieden;", cmbStroomgebieden)
         Setup.GeneralFunctions.PopulateComboboxFromDatabaseQuery(Setup.SqliteCon, "SELECT DISTINCT NAAM FROM tblModelleersoftware;", cmbModelleersoftware)
 

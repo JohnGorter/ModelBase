@@ -1,0 +1,14 @@
+Installatie:
+Het programma 'Modellenbeheerder' kan worden geïnstalleerd door de installer ModelbaseSetup-v1.1.0.1-x64.exe te starten.
+In het bestand settings.ini kunt u zelf het pad naar de database voor de gebruiker vastleggen.
+
+Let op: het .NET framework 7.0 of hoger moet op het systeem geinstalleerd zijn. Indien niet aanwezig dan vindt u de installatie meegeleverd in de map: dotnet-sdk-7.0.410-win-x64.exe
+
+Dependencies:
+Het programma maakt gebruik van de GIS-library MapWinGIS, oorspronkelijk van de University of Idaho. Deze library wordt meegeïnstalleerd maar indien nodig vindt u de installer MapWinGIS-only-v5.3.0.0-x64-VS2017.exe ook separaat in de installatiemap.
+Verder is nodig de Microsoft Visual C++ redistributable VC_redist.x64.exe. Ook deze wordt automatisch mee-geïnstalleerd met de installatie van het programma.
+
+Tot slot is het Microsoft .NET framework 7.0 of hoger nodig. dotnet-sdk-7.0.410-win-x64.exe
+Deze wordt nog niet automatisch meegeïnstalleerd dus moet handmatig worden geinstalleerd op het doelsysteem.
+
+

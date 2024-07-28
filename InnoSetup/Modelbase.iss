@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Modellenbeheer"
-#define MyAppVersion "1.1.0.0"
+#define MyAppVersion "1.1.0.1"
 #define MyAppPublisher "Hydroconsult"
 #define MyAppURL "http://www.sobek.tools"
 #define SetupLocation "c:\GITHUB\ModelBase\InnoSetup"
@@ -13,7 +13,7 @@
 
 #ifdef x64BitVersion
   #define CPU "x64"
-  ;#define mapwingis = "MapWinGIS-only-v5.3.0.0-x64-VS2017.exe"
+  #define mapwingis = "MapWinGIS-only-v5.3.0.0-x64-VS2017.exe"
   #define vcredist "VC_redist.x64.exe"
   #define MySourceDir BinLocation
   #define SystemFlag "64bit"
@@ -21,7 +21,7 @@
   #define ribasimviewer = "RibasimViewer.zip"
 #else
   #define CPU "Win32"
-  ;#define mapwingis = "MapWinGIS-only-v5.2.4-Win32-VS2017.exe"
+  #define mapwingis = "MapWinGIS-only-v5.2.4-Win32-VS2017.exe"
   #define vcredist "vcredist_x86-" + VsVersion + ".exe"
   #define MySourceDir BinLocation + "\x86\"
   #define SystemFlag "32bit"
@@ -86,7 +86,8 @@ VersionInfoProductTextVersion={#MyAppVersion}
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 Source: "{#MySourceDir}\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs {#SystemFlag}; Excludes: "*.pdb,*.xml,*.ocx,Native.HYDROC01.manifest"
 Source: "{#SetupLocation}\{#vcredist}"; DestDir: "{app}"
-;Source: "{#SetupLocation}\{#mapwingis}"; DestDir: "{app}"
+Source: "{#SetupLocation}\{#mapwingis}"; DestDir: "{app}"
+Source: "{src}\settings.ini"; DestDir: "{app}"; Flags: external
 
 ;write the zip file containing our webviewer and our ribasim viewer
 ;#define viewerdir = "viewer"
@@ -111,12 +112,12 @@ Filename: "{app}\{#vcredist}"; Parameters: "/quiet"; Flags: waituntilterminated;
 Filename: "{app}\{#vcredist}"; Parameters: "/quiet"; Flags: waituntilterminated; Check: VCRedistNeedsInstall_x86()
 #endif
 ;also install MapWinGIS
-;Filename: "{app}\{#mapwingis}"; Parameters: "/verysilent /norestart /DIR=..\MapWinGIS"; Flags: waituntilterminated
+Filename: "{app}\{#mapwingis}"; Parameters: "/verysilent /norestart /DIR=..\MapWinGIS"; Flags: waituntilterminated
 ;And (optionally) HydroToolbox itself:
 Filename: "{app}\Modelbase.exe"; Flags: shellexec runasoriginaluser postinstall nowait skipifsilent; Description: "Start Modellenbeheer?"
 
 [UninstallRun]
-;Filename: "{app}\unregMapWinGIS.cmd"; WorkingDir: "{app}"; Flags: runhidden
+Filename: "{app}\unregMapWinGIS.cmd"; WorkingDir: "{app}"; Flags: runhidden
 
 [Registry]
 ;; Add location of MapWinGIS to path, needed for netcdf.dll
