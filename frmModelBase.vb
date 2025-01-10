@@ -209,60 +209,65 @@ Public Class frmModelBase
     End Sub
 
     Private Sub grdModelSchematizations_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles grdModelSchematizations.CellClick
+        Try
+            Dim ModelCaseName As String = grdModelSchematizations.Rows(e.RowIndex).Cells(0).Value
+            Dim ModelConfigFile As String = ""
+            Dim ModelDir As String = ""
 
-        Dim ModelCaseName As String = grdModelSchematizations.Rows(e.RowIndex).Cells(0).Value
-        Dim ModelConfigFile As String = ""
-        Dim ModelDir As String = ""
+            'the user has clicked on one of the cases. Let's plot it on the map
+            Dim query As String = "SELECT CONFIGURATIEBESTAND, MODELDIRECTORY FROM tblModelschematisaties WHERE NAAM = '" & grdModelSchematizations.Rows(e.RowIndex).Cells(0).Value & "';"
+            Dim dt As New DataTable
+            Setup.GeneralFunctions.SQLiteQuery(Setup.SqliteCon, query, dt)
 
-        'the user has clicked on one of the cases. Let's plot it on the map
-        Dim query As String = "SELECT CONFIGURATIEBESTAND, MODELDIRECTORY FROM tblModelschematisaties WHERE NAAM = '" & grdModelSchematizations.Rows(e.RowIndex).Cells(0).Value & "';"
-        Dim dt As New DataTable
-        Setup.GeneralFunctions.SQLiteQuery(Setup.SqliteCon, query, dt)
+            If dt.Rows.Count > 0 Then
 
-        If dt.Rows.Count > 0 Then
+                Dim ModelModules As New clsModelModules
+                ModelModules.Flow1D.Topo.ReadAll = True
 
-            Dim ModelModules As New clsModelModules
-            ModelModules.Flow1D.Topo.ReadAll = True
+                ModelConfigFile = dt.Rows(0).Item(0)
+                ModelDir = dt.Rows(0).Item(1)
 
-            ModelConfigFile = dt.Rows(0).Item(0)
-            ModelDir = dt.Rows(0).Item(1)
+                If Not System.IO.File.Exists(ModelConfigFile) Then
+                    Throw New Exception("Model configuration file not found: " & ModelConfigFile)
+                    Exit Sub
+                End If
 
-            'now we have all the information to read the  model schematization and plot it on the map
-            'based on the file eension, we know which type of model schematization to read
-            Select Case Me.Setup.GeneralFunctions.getExtensionFromFileName(ModelConfigFile).Trim.ToUpper
-                Case "XML"
-                    'XML, so we assume it is a DIMR model
-                    Setup.InitModel(True, True)
-                    Setup.Model.ActiveProject = New ClsModelProject(Me.Setup, ModelDir, GeneralFunctions.enmSimulationModel.DIMR)
-                    Setup.setDIMRProjectAndCase(ModelConfigFile, ModelCaseName)
-                    Setup.ReadActiveCase(ModelModules, "")
-                    RenderModelOnMap(Setup.Model.ActiveProject.ActiveCase)
-
-
-                Case "CMT"
-                    'CMT, so we assume it is a SOBEK 2 model
-                    Setup.SetAddSobekProject(ModelDir, ModelDir, True, True)
-                    Setup.Model.ActiveProject.setPenColors()
-                    Dim myCases As List(Of String) = Me.Setup.Model.ActiveProject.getListOfCaseNames()
-                    For Each myCaseName As String In myCases
-                        If myCaseName = ModelCaseName Then
-                            Dim myCase As HYDROC01.clsModelCase = Me.Setup.Model.ActiveProject.Cases.Item(myCaseName.Trim.ToUpper)
+                'now we have all the information to read the  model schematization and plot it on the map
+                'based on the file eension, we know which type of model schematization to read
+                Select Case Me.Setup.GeneralFunctions.getExtensionFromFileName(ModelConfigFile).Trim.ToUpper
+                    Case "XML"
+                        'XML, so we assume it is a DIMR model
+                        Setup.InitModel(True, True)
+                        Setup.Model.ActiveProject = New ClsModelProject(Me.Setup, ModelDir, GeneralFunctions.enmSimulationModel.DIMR)
+                        Setup.setDIMRProjectAndCase(ModelConfigFile, ModelCaseName)
+                        Setup.ReadActiveCase(ModelModules, "")
+                        RenderModelOnMap(Setup.Model.ActiveProject.ActiveCase)
 
 
-                            myCase.Read(ModelModules, "")
-
-                            RenderModelOnMap(myCase)
-
-                            Exit For
-                        End If
-                    Next
-            End Select
-
-
+                    Case "CMT"
+                        'CMT, so we assume it is a SOBEK 2 model
+                        Setup.SetAddSobekProject(ModelDir, ModelDir, True, True)
+                        Setup.Model.ActiveProject.setPenColors()
+                        Dim myCases As List(Of String) = Me.Setup.Model.ActiveProject.getListOfCaseNames()
+                        For Each myCaseName As String In myCases
+                            If myCaseName = ModelCaseName Then
+                                Dim myCase As HYDROC01.clsModelCase = Me.Setup.Model.ActiveProject.Cases.Item(myCaseName.Trim.ToUpper)
 
 
+                                myCase.Read(ModelModules, "")
 
-        End If
+                                RenderModelOnMap(myCase)
+
+                                Exit For
+                            End If
+                        Next
+                End Select
+            End If
+
+        Catch ex As Exception
+            MsgBox("Error: " & ex.Message)
+        End Try
+
 
 
 

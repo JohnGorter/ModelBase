@@ -22,7 +22,7 @@ Partial Class frmModelBase
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As ComponentModel.ComponentResourceManager = New ComponentModel.ComponentResourceManager(GetType(frmModelBase))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmModelBase))
         MenuStrip1 = New MenuStrip()
         DatabaseToolStripMenuItem = New ToolStripMenuItem()
         OpenToolStripMenuItem = New ToolStripMenuItem()
@@ -370,7 +370,6 @@ Partial Class frmModelBase
         grdModelSchematizations.Columns.AddRange(New DataGridViewColumn() {colCaseNaam, colStroomgebied, colModelType})
         grdModelSchematizations.Location = New Point(22, 285)
         grdModelSchematizations.Name = "grdModelSchematizations"
-        grdModelSchematizations.RowHeadersVisible = False
         grdModelSchematizations.RowHeadersWidth = 51
         grdModelSchematizations.RowTemplate.Height = 29
         grdModelSchematizations.Size = New Size(498, 188)
