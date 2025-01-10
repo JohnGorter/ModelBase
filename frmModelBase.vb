@@ -108,8 +108,10 @@ Public Class frmModelBase
             queryconstraints = queryconstraints & " STROOMGEBIED = '" & cmbStroomgebieden.Text & "'"
         End If
         If cmbModelleersoftware.Text.Length > 0 Then
-            If queryconstraints.Length > 7 Then queryconstraints &= queryconstraints & " AND "
-            queryconstraints &= queryconstraints & " SOFTWARE = '" & cmbModelleersoftware.Text & "'"
+            If queryconstraints.Length > 7 Then
+                queryconstraints = queryconstraints & " AND "
+            End If
+            queryconstraints = queryconstraints & " SOFTWARE = '" & cmbModelleersoftware.Text & "'"
         End If
 
         If queryconstraints.Length > 7 Then
